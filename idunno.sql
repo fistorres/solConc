@@ -57,7 +57,7 @@ CREATE TABLE OrganizacoesApoioSolidario (
     email VARCHAR(50),
     telefone NUMERIC(9),
     morada VARCHAR(50),
-    montanteAngariado REAL(10000000),
+    montanteAngariado NUMERIC(6,2),
     FOREIGN KEY (iban) REFERENCES Causas(iban),
     FOREIGN KEY (nif) REFERENCES Organizacoes(nif) ON DELETE CASCADE,
     PRIMARY KEY (nif),
