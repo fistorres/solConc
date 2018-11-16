@@ -10,6 +10,17 @@ DROP TABLE IF EXISTS Espaço;
 DROP TABLE IF EXISTS Realizam;
 DROP TABLE IF EXISTS FormatoConcerto;
 
+DROP TABLE IF EXISTS Contribuem;
+DROP TABLE IF EXISTS SaoFeitos;
+DROP TABLE IF EXISTS RespondemA;
+DROP TABLE IF EXISTS Partilham;
+DROP TABLE IF EXISTS Compram;
+DROP TABLE IF EXISTS Organizacoes;
+DROP TABLE IF EXISTS OrganizacoesApoioSolidario;
+DROP TABLE IF EXISTS OrganizacoesPatrocinadoras;
+DROP TABLE IF EXISTS Causas;
+DROP TABLE IF EXISTS Comentarios;
+DROP TABLE IF EXISTS Espectadores;
 
 
 CREATE TABLE FormatoConcerto (
