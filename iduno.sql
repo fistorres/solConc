@@ -79,7 +79,7 @@ CREATE TABLE Espaço (
   CHECK(codigoEs>0)
 );
 
-CREATE TABLE Inclui_Salas (
+CREATE TABLE IncluiSalas (
   nomeS VARCHAR(50) UNIQUE,
   sigla VARCHAR(10) ,
   lotação NUMERIC(5) ,
@@ -89,25 +89,25 @@ CREATE TABLE Inclui_Salas (
   CHECK(lotacao>0)  
 );
    
-CREATE TABLE Tem_Zonas (
+CREATE TABLE TemZonas (
   nomeZ VARCHAR(50),
   sigla VARCHAR(10),
   codigoEs NUMERIC(5),
   PRIMARY KEY(nomeZ,codigoEs,sigla),
   FOREIGN KEY(codigoEs) REFERENCES Espaço,
-  FOREIGN KEY(sigla) REFERENCES Salas ON DELETE CASCADE,
+  FOREIGN KEY(sigla) REFERENCES IncluiSalas ON DELETE CASCADE,
   CHECK(codigoEs>0)
 );
 
-CREATE TABLE TemLug_Lugares (
+CREATE TABLE TemLugLugares (
  numeroLetra VARCHAR(50),
  nomeZ VARCHAR(50),
  sigla VARCHAR(10),
  codigoEs NUMERIC(5),
  PRIMARY KEY(nomeZ,numeroLetra,codigoEs,sigla),
- FOREIGN KEY(sigla) REFERENCES Salas,
+ FOREIGN KEY(sigla) REFERENCES IncluiSalas,
  FOREIGN KEY(codigoEs) REFERENCES Espaço,
- FOREIGN KEY(nomeZ) REFERENCES Zonas ON DELETE CASCADE,
+ FOREIGN KEY(nomeZ) REFERENCES TemZonas ON DELETE CASCADE,
  );
 
 CREATE TABLE Beneficiam (
