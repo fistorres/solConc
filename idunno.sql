@@ -437,3 +437,31 @@ INSERT INTO Concerto (espaço, nomeConcerto, dataConcerto)
 	VALUES (0250, RockPm, "2018-07-15 14:00:00");
 INSERT INTO Concerto (espaço, nomeConcerto, dataConcerto)
 	VALUES (3250, LiveInGondomar, "2018-06-10 18:30:00");
+		
+INSERT INTO Solo(nomeAtuante)
+  VALUES ("LadyBirdy")
+INSERT INTO Solo(nomeAtuante)
+  VALUES ("Luckyme")
+INSERT INTO Banda(nomeAtuante)
+  VALUES ("Joaquim De Barreiros")
+
+INSERT INTO Atuante(nomeAtuante)
+     VALUES("Joaquim De Barreiros")
+INSERT INTO Atuante(nomeAtuante)
+     VALUES ("LadyBirdy")
+INSERT INTO Atuante(nomeAtuante)
+     VALUES ("Luckyme")
+  
+INSERT INTO Papel(designação)
+     VALUES("Baterista")
+INSERT INTO Papel(designação)
+     VALUES("DJ")
+INSERT INTO Papel(designação)
+     VALUES("Vocalista")
+   
+INSERT INTO Comentarios(numeroSequencial,dataComentario,likes,dislikes,dataConcerto,nome,telemovel)
+     VALUES(157835,"2018-06-24 00:00:00",000000,000400,"2018-06-23 23:00:00","LutaFeliz",916778912)
+INSERT INTO Comentarios(numeroSequencial,dataComentario,likes,dislikes,dataConcerto,nome,telemovel)
+     VALUES(157843,"2018-06-03 00:30:00",000034,000345,00:00,"2018-06-03","00:30:00","YOLO",9167562)
+INSERT INTO Comentarios(numeroSequencial,dataComentario,likes,dislikes,dataConcerto,nome,telemovel)
+     VALUES(157845,"2018-06-13 16:00:00",002000,000020,"21:00:00","Infantil",967150976)
