@@ -417,3 +417,23 @@ INSERT INTO FormatoConcerto (nomeF, duracao, sinopse)
 INSERT INTO FormatoConcerto (nomeF, duracao, sinopse)
   VALUES ('5 milliseconds of summer', 1:00:00, 'A banda favorita da malta jovem esta de volta');
 
+INSERT INTO AgenciaRepresentante (codigo, nome, website, email, morada, redeSocial, telefone)
+	VALUES (0224, RisingStar, www.risingstar.com, info@risingstar.com, Rua Nómada n1, www.facebook.com/risingstar, 213098666);
+INSERT INTO AgenciaRepresentante (codigo, nome, website, email, morada, redeSocial, telefone)
+	VALUES (0572, NewTalent, www.newtalent.com, info@newtalent.com, Rua Comércio n4, www.facebook.com/newtalent, 225628222);
+INSERT INTO AgenciaRepresentante (codigo, nome, website, email, morada, redeSocial, telefone)
+	VALUES (0224, MasterWuju, www.masterwuju.com, info@masterwuju.com, Rua Milho n2, www.facebook.com/masterwuju, 235412677);
+	
+INSERT INTO Artista (id, nome, nomeArtistico)
+	VALUES (1587, Roger Mercury, Prince);
+INSERT INTO Artista (id, nome, nomeArtistico)
+	VALUES (0742, Freddy Deacon, Queen);
+INSERT INTO Artista (id, nome, nomeArtistico)
+	VALUES (1587, Brian Taylor, King);
+	
+INSERT INTO Concerto (espaço, nomeConcerto, dataConcerto)
+	VALUES (0010, LiveMaid, "2018-06-02 16:45:00)";
+INSERT INTO Concerto (espaço, nomeConcerto, dataConcerto)
+	VALUES (0250, RockPm, "2018-07-15 14:00:00");
+INSERT INTO Concerto (espaço, nomeConcerto, dataConcerto)
+	VALUES (3250, LiveInGondomar, "2018-06-10 18:30:00");
