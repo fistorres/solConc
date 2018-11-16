@@ -10,6 +10,8 @@ DROP TABLE IF EXISTS Espaço;
 DROP TABLE IF EXISTS Realizam;
 DROP TABLE IF EXISTS FormatoConcerto;
 
+DROP TABLE IF EXISTS Beneficiam
+DROP TABLE IF EXISTS Patrocinam;
 DROP TABLE IF EXISTS Contribuem;
 DROP TABLE IF EXISTS SaoFeitos;
 DROP TABLE IF EXISTS RespondemA;
@@ -39,15 +41,21 @@ CREATE TABLE Espectadores (
     telemovel NUMERIC(9) PRIMARY KEY,
     email VARCHAR(50),
     nome VARCHAR (50),
-    nif NUMERIC(9)
+    nif NUMERIC(9),
     descontoAcumulado NUMERIC(3)
 );
-Hey Sammy ainda estou de volta do trabalho, ainda vou demorar (é para hojeHey Sammy ainda estou de volta do trabalho, ainda vou demorar (é para hoje
+
 CREATE TABLE Comentarios (
     numeroSequencial INTEGER(10000000) PRIMARY KEY,
     data TIMESTAMP,
-    likes INTEGER(10000000)
-    dislike INTEGER(10000000)
+    likes INTEGER(10000000),
+    dislike INTEGER(10000000),
+    data TIMESTAMP NOT NULL,
+    nome VARCHAR(50) NOT NULL,
+    telemovel NUMERIC(9) NOT NULL,
+    FOREIGN KEY (data) REFERENCES Concerto ON DELETE NO ACTION,
+    FOREGN KEY (nome) REFERENCES FormatoConcerto ON DELETE NO ACTION,
+    FOREIGN KEY (telemovel) REFERENCES Espectadores ON DELETE NO ACTION
 );
 
 CREATE TABLE Causas (
@@ -63,21 +71,24 @@ CREATE TABLE OrganizacoesPatrocinadoras (
     redeSocial VARCHAR(50),
     email VARCHAR(50),
     telefone NUMERIC(9),
-    morada VARCHAR(50)
-    montanteAtribuido REAL(10000)
+    morada VARCHAR(50),
+    montanteAtribuido REAL(10000000),
     PRIMARY KEY (nif),
     FOREIGN KEY (nif) REFERENCES Organizações ON DELETE CASCADE
 );
 
 CREATE TABLE OrganizacoesApoioSolidario (
     nif NUMERIC(9),
+    iban NUMERIC(23) NOT NULL,
     website VARCHAR(100),
     nome VARCHAR(50),
     redeSocial VARCHAR(50),
     email VARCHAR(50),
     telefone NUMERIC(9),
-    morada VARCHAR(50)
+    morada VARCHAR(50),
+    montanteAngariado REAL(10000000),
     PRIMARY KEY (nif),
+    FOREIGN KEY (iban) REFERENCES Causas ON DELETE NO ACTION,
     FOREIGN KEY (nif) REFERENCES Organizações ON DELETE CASCADE
 );
 
@@ -91,22 +102,61 @@ CREATE TABLE Organizacoes (
     morada VARCHAR(50)
 );
 
+CREATE TABLE Beneficiam (
+    data TIMESTAMP,
+    nome VARCHAR(50),
+    montanteAngariado REAL(10000000),
+    nif NUMERIC(9),
+    PRIMARY KEY (data, nome, montanteAngariado, nif),
+    FOREIGN KEY (data) REFERENCES Concerto,
+    FOREIGN KEY (nome) REFERENCES FormatoConcerto,
+    FOREIGN KEY (montanteAngariado) REFERENCES OrganizacoesApoioSolidario,
+    FOREIGN KEY (nif) REFERENCES Organizacoes
+
+CREATE TABLE Patrocinam (
+    data TIMESTAMP,
+    nome VARCHAR(50),
+    montanteAtribuido REAL(10000000),
+    nif NUMERIC(9),
+    PRIMARY KEY (data, nome, montanteAtribuido, nif),
+    FOREIGN KEY (data) REFERENCES Concerto,
+    FOREIGN KEY (nome) REFERENCES FormatoConcerto,
+    FOREIGN KEY (montanteAtribuido) REFERENCES OrganizacoesPatrocinadoras,
+    FOREIGN KEY (nif) REFERENCES Organizacoes
+);
+    
+CREATE TABLE Contribuem (
+    iban NUMERIC (23),
+    nif NUMERIC (9),
+    montanteAngariado REAL(10000000),
+    PRIMARY KEY (iban, nif, montanteAngariado),
+    FOREIGN KEY (iban) REFERENCES Causas,
+    FOREIGN KEY (nif) REFERENCES Organizacoes,
+    FOREIGN KEY (montangeAngariado) REFERENCES OrganizacoesApoioSolidario
+);
+
 CREATE TABLE SaoFeitos (
-    data 
+    data TIMESTAMP,
+    nome VARCHAR(50),
+    numeroSequencial INTEGER(10000000),
+    PRIMARY KEY (data, nome, numeroSequencial),
+    FOREIGN KEY (data) REFERENCES Concerto,
+    FOREGN KEY (nome) REFERENCES FormatoConcerto
+);    
 
 CREATE TABLE RespondemA (
-    original_numeroSequencial INTEGER INTEGER(10000000)
-    resposta_numeroSequencial INTEGER(10000000)
-    PRIMARY KEY (original_numeroSequencial, resposta_numeroSequencial)
-    FOREIGN KEY (original_numeroSequencial) REFERENCES Comentarios
+    original_numeroSequencial INTEGER(10000000),
+    resposta_numeroSequencial INTEGER(10000000),
+    PRIMARY KEY (original_numeroSequencial, resposta_numeroSequencial),
+    FOREIGN KEY (original_numeroSequencial) REFERENCES Comentarios,
     FOREIGN KEY (resposta_numeroSequencial) REFERENCES Comentarios
 );
 
 CREATE TABLE Partilham (
     telemovel NUMERIC(9),
-    numeroSequencial INTEGER(10000000)
-    PRIMARY KEY (telemovel, numeroSequencial)
-    FOREIGN KEY (telemove) REFERENCES Espectadores
+    numeroSequencial INTEGER(10000000),
+    PRIMARY KEY (telemovel, numeroSequencial),
+    FOREIGN KEY (telemove) REFERENCES Espectadores,
     FOREIGN KEY (numeroSequencial) REFERENCES Comentarios
 );    
 
@@ -114,10 +164,10 @@ CREATE TABLE Compram (
     nome VARCHAR(50),
     numeroLetra VARCHAR(50),
     telemovel NUMERIC(9),
-    preço INTEGER(3)
+    preço INTEGER(3),
     PRIMARY KEY (nome, numeroLetra),
-    FOREIGN KEY (nome) REFERENCES FormatoConcerto
-    FOREIGN KEY (numeroLetra) REFERENCES LUGARES
+    FOREIGN KEY (nome) REFERENCES FormatoConcerto,
+    FOREIGN KEY (numeroLetra) REFERENCES LUGARES,
     FOREIGN KEY (telemovel) REFERENCES Espectadores
 );
 
