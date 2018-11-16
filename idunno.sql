@@ -137,19 +137,19 @@ CREATE TABLE TemLugares (
  );
  
  CREATE TABLE FormatoConcerto (
-  nomeF VARCHAR(50), 
+  nomeF VARCHAR(50) PRIMARY KEY, 
   duracao TIME,
   sinopse VARCHAR(200),
-  PRIMARY KEY(nomeF),
   CHECK(duracao>0)
 );
 
 CREATE TABLE Concerto (
-  dataConcerto TIMESTAMP,
   espaco VARCHAR(50),
   nomeConcerto VARCHAR(50),
+  dataConcerto TIMESTAMP,
   PRIMARY KEY (nomeConcerto, dataConcerto),
   FOREIGN KEY (nomeConcerto) REFERENCES FormatoConcerto(nomeF) ON DELETE CASCADE
+  
 );
 
 CREATE TABLE Comentarios (
@@ -160,7 +160,7 @@ CREATE TABLE Comentarios (
     dataConcerto TIMESTAMP NOT NULL,
     nome VARCHAR(50) NOT NULL,
     telemovel NUMERIC(9) NOT NULL,
-    FOREIGN KEY (dataConcerto) REFERENCES Concerto(dataConcerto) ON DELETE NO ACTION,
+    -- FOREIGN KEY (dataConcerto) REFERENCES Concerto(dataConcerto) ON DELETE NO ACTION,
     FOREIGN KEY (nome) REFERENCES FormatoConcerto(nomeF) ON DELETE NO ACTION,
     FOREIGN KEY (telemovel) REFERENCES Espectadores(telemovel) ON DELETE NO ACTION,
     CHECK (numeroSequencial > 0),
@@ -212,30 +212,31 @@ CREATE TABLE Solo (
 );
 
 CREATE TABLE Beneficiam (
-    data TIMESTAMP,
-    nome VARCHAR(50),comentarios
-    montanteAngariado 
-    (10000000),
+    dataConcerto TIMESTAMP,
+    nomeF VARCHAR(50),
+    montanteAngariado NUMERIC(6,2),
     nif NUMERIC(9),
-    FOREIGN KEY (data) REFERENCES Concerto(data),
-    FOREIGN KEY (nome) REFERENCES FormatoConcerto(nome),
-    FOREIGN KEY (montanteAngariado) REFERENCES OrganizacoesApoioSolidario(montanteAngariado),
+    percentagemBeneficiada NUMERIC(3),
+    -- FOREIGN KEY (dataConcerto) REFERENCES Concerto(dataConcerto),
+    FOREIGN KEY (nomeF) REFERENCES FormatoConcerto(nomeF),
+    -- FOREIGN KEY (montanteAngariado) REFERENCES OrganizacoesApoioSolidario(montanteAngariado),
     FOREIGN KEY (nif) REFERENCES Organizacoes(nif),
-    PRIMARY KEY (data, nome, montanteAngariado, nif),
-    CHECK (montanteAngariado >= 0),
-    CHECK (nif > 0)
+    PRIMARY KEY (dataConcerto, nomeF, montanteAngariado, nif),
+    CHECK (nif > 0),
+    CHECK (percentagemBeneficiada >= 0),
+    CHECK (percentagemBeneficiada < 101)
 );
 
 CREATE TABLE Patrocinam (
-    data TIMESTAMP,
+    dataConcerto TIMESTAMP,
     nome VARCHAR(50),
     montanteAtribuido NUMERIC(6,2),
     nif NUMERIC(9),
-    FOREIGN KEY (data) REFERENCES Concerto(data),
-    FOREIGN KEY (nome) REFERENCES FormatoConcerto(nome),
-    FOREIGN KEY (montanteAtribuido) REFERENCES OrganizacoesPatrocinadoras(montanteAtribuido),
-    FOREIGN KEY (nif) REFERENCES Organizacoes(nif),
-    PRIMARY KEY (data, nome, montanteAtribuido, nif),
+    FOREIGN KEY (dataConcerto) REFERENCES Concerto(dataConcerto),
+    -- FOREIGN KEY (nome) REFERENCES FormatoConcerto(nome),
+    -- FOREIGN KEY (montanteAtribuido) REFERENCES OrganizacoesPatrocinadoras(montanteAtribuido),
+    -- FOREIGN KEY (nif) REFERENCES Organizacoes(nif),
+    PRIMARY KEY (dataConcerto, nome, montanteAtribuido, nif),
     CHECK (montanteAtribuido >= 0),
     CHECK (nif > 0)
 );
@@ -244,9 +245,9 @@ CREATE TABLE Contribuem (
     iban NUMERIC (23),
     nif NUMERIC (9),
     montanteAngariado NUMERIC(6,2),
-    FOREIGN KEY (iban) REFERENCES Causas(iban),
+    -- FOREIGN KEY (iban) REFERENCES Causas(iban),
     FOREIGN KEY (nif) REFERENCES Organizacoes(nif),
-    FOREIGN KEY (montangeAngariado) REFERENCES OrganizacoesApoioSolidario,
+    -- FOREIGN KEY (montanteAngariado) REFERENCES OrganizacoesApoioSolidario(montanteAngariado),
     PRIMARY KEY (iban, nif, montanteAngariado),
     CHECK (iban > 0),
     CHECK (nif > 0),
@@ -254,18 +255,18 @@ CREATE TABLE Contribuem (
 );
 
 CREATE TABLE SaoFeitos (
-    data TIMESTAMP,
+    dataConcerto TIMESTAMP,
     nome VARCHAR(50),
-    numeroSequencial INTEGER(10000000),
-    FOREIGN KEY (data) REFERENCES Concerto(data),
+    numeroSequencial NUMERIC(6),
+    FOREIGN KEY (dataConcerto) REFERENCES Concerto(dataConcerto),
     FOREIGN KEY (nome) REFERENCES FormatoConcerto(nome),
-    PRIMARY KEY (data, nome, numeroSequencial),
+    PRIMARY KEY (dataConcerto, nome, numeroSequencial),
     CHECK (numeroSequencial > 0)
 );    
 
 CREATE TABLE RespondemA (
-    originalNumeroSequencial INTEGER(10000000),
-    respostaNumeroSequencial INTEGER(10000000),
+    originalNumeroSequencial NUMERIC(6),
+    respostaNumeroSequencial NUMERIC(6),
     FOREIGN KEY (original_numeroSequencial) REFERENCES Comentarios(original_numeroSequencial),
     FOREIGN KEY (resposta_numeroSequencial) REFERENCES Comentarios(resposta_numeroSequencial),
     PRIMARY KEY (original_numeroSequencial, resposta_numeroSequencial),
@@ -275,7 +276,7 @@ CREATE TABLE RespondemA (
 
 CREATE TABLE Partilham (
     telemovel NUMERIC(9),
-    numeroSequencial INTEGER(10000000),
+    numeroSequencial NUMERIC(6),
     FOREIGN KEY (telemovel) REFERENCES Espectadores(telemovel),
     FOREIGN KEY (numeroSequencial) REFERENCES Comentarios(numeroSequencial),
     PRIMARY KEY (telemovel, numeroSequencial),
@@ -292,7 +293,7 @@ CREATE TABLE Partilham (
     preco INTEGER(3),
     telemovel NUMERIC(9) UNIQUE,
     PRIMARY KEY (nomeF,numeroLetra,nomeZ,sigla,codigoEs),
-    PRIMARY KEY (nomeF) REFERENCES FormatoConcerto(nomeF),
+    FOREIGN KEY (nomeF) REFERENCES FormatoConcerto(nomeF),
     FOREIGN KEY (numeroLetra) REFERENCES Lugares(numeroLetra),
     FOREIGN KEY (nomeZ) REFERENCES Zonas(nomeZ),
     FOREIGN KEY (sigla) REFERENCES Salas(sigla),
@@ -350,5 +351,5 @@ CREATE TABLE Desempenha (
   FOREIGN KEY (idArtista) REFERENCES Artista(id),
   FOREIGN KEY (designacaoPapel) REFERENCES Papel(designacao),
   FOREIGN KEY (nomeAtuante) REFERENCES Atuante(nome),
-  PRIMARY KEY (nomeAtuante, idArtista, designacaoPapel),
+  PRIMARY KEY (nomeAtuante, idArtista, designacaoPapel)
 );
