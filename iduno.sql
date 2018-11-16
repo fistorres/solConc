@@ -259,9 +259,11 @@ CREATE TABLE TemLug_Lugares (
 --as cenas do Gil começam aqui
     
 CREATE TABLE FormatoConcerto (
-  nome VARCHAR(50) PRIMARY KEY,
+  nomeF VARCHAR(50), 
   duracao TIME,
-  sinopse VARCHAR(200)
+  sinopse VARCHAR(200),
+  PRIMARY KEY(nomeF),
+  CHECK(duracao>0)
 );
 
 CREATE TABLE Artista (
@@ -291,7 +293,7 @@ CREATE TABLE Concerto (
   espaco VARCHAR(50),
   nomeConcerto VARCHAR(50),
   PRIMARY KEY (NomeConcerto, data),
-  FOREIGN KEY (nomeConcerto) REFERENCES FormatoConcerto(nome) ON DELETE CASCADE
+  FOREIGN KEY (nomeConcerto) REFERENCES FormatoConcerto(nomeF) ON DELETE CASCADE
 );
 
 CREATE TABLE Atuante (
@@ -322,7 +324,7 @@ CREATE TABLE Atua (
   CHECK (cachet > 0),
   CHECK (ordem > 0),
   FOREIGN KEY (nomeAtuante) REFERENCES Atuante(nome),
-  FOREIGN KEY (formatoConcerto) REFERENCES FormatoConcerto(nome),
+  FOREIGN KEY (formatoConcerto) REFERENCES FormatoConcerto(nomeF),
   PRIMARY KEY (nomeAtuante, formatoConcerto),
   CHECK (ordem > 0),
   CHECK (cachet > 0),
