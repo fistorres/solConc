@@ -178,16 +178,19 @@ CREATE TABLE Compram (
  CREATE TABLE Compram (
     nomeF VARCHAR(50),
     numeroLetra VARCHAR(50),
-	nomeZ VARCHAR(50),
+    nomeZ VARCHAR(50),
     sigla VARCHAR(10),
-	codigoEs NUMERIC(5),
-    preço INTEGER(3)
+    codigoEs NUMERIC(5),
+    preco INTEGER(3),
+    telemovel NUMERIC(9) UNIQUE,
     PRIMARY KEY (nomeF,numeroLetra,nomeZ,sigla,codigoEs),
-	PRIMARY KEY (nomeF) REFERENCES FormatoConcerto,
+    PRIMARY KEY (nomeF) REFERENCES FormatoConcerto,
     FOREIGN KEY (numeroLetra) REFERENCES Lugares,
-	FOREIGN KEY (nomeZ) REFERENCES Zonas,
+    FOREIGN KEY (nomeZ) REFERENCES Zonas,
     FOREIGN KEY (sigla) REFERENCES Salas,
-	FOREIGN KEY (codigoEs) REFERENCES Espaço   
+    FOREIGN KEY (codigoEs) REFERENCES Espaço  ,
+    FOREIGN KEY (telemovem) REFERENCES Espectadores,
+    CHECK(preco>0)
 );
 
 CREATE TABLE FormatoConcerto (
@@ -211,7 +214,7 @@ CREATE TABLE Realizam (
 
 CREATE TABLE Espaço (
   redesocialEs VARCHAR(50) UNIQUE,
-  telefoneEs NUMERIC(12) UNIQUE,
+  telefoneEs NUMERIC(9) UNIQUE,
   webesp VARCHAR(50) UNIQUE,
   emailEs VARCHAR(50) UNIQUE,
   nomeE VARCHAR(50) UNIQUE,
@@ -224,7 +227,7 @@ CREATE TABLE Espaço (
 
 
 CREATE TABLE Inclui_Salas (
-  nomeS VARCHAR(50),
+  nomeS VARCHAR(50) UNIQUE,
   sigla VARCHAR(10) ,
   lotação NUMERIC(5) ,
   codigoEs NUMERIC(5),
@@ -238,9 +241,10 @@ CREATE TABLE Tem_Zonas (
   nomeZ VARCHAR(50),
   sigla VARCHAR(10),
   codigoEs NUMERIC(5),
-  PRIMARY KEY(nome,codigoEs,sigla),
+  PRIMARY KEY(nomeZ,codigoEs,sigla),
   FOREIGN KEY(codigoEs) REFERENCES Espaço,
   FOREIGN KEY(sigla) REFERENCES Salas ON DELETE CASCADE,
+  CHECK(codigoEs>0)
 );
 
 
@@ -258,13 +262,13 @@ CREATE TABLE TemLug_Lugares (
 
 --as cenas do Gil começam aqui
     
-CREATE TABLE FormatoConcerto (
+"""CREATE TABLE FormatoConcerto (
   nomeF VARCHAR(50), 
   duracao TIME,
   sinopse VARCHAR(200),
   PRIMARY KEY(nomeF),
   CHECK(duracao>0)
-);
+);"""
 
 CREATE TABLE Artista (
   id NUMERIC(4) PRIMARY KEY,
