@@ -1,3 +1,10 @@
+"""
+BD 2018/19 bd001,Mário Gil Oliveira,49269,TP6
+BD 2018/19 bd001,Sofia Torres,TP6
+BD 2018/19 bd001,Margarida Rolo,46261,TP2
+BD 2018/19 bd001,Miguel Pego,49269,TP2
+"""
+
 DROP TABLE IF EXISTS Desempenha;
 DROP TABLE IF EXISTS TemCapacidade;
 DROP TABLE IF EXISTS Representa;
