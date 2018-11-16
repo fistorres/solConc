@@ -65,7 +65,7 @@ CREATE TABLE OrganizacoesApoioSolidario (
     morada VARCHAR(50),
     montanteAngariado REAL(10000000),
     FOREIGN KEY (iban) REFERENCES Causas(iban),
-    FOREIGN KEY (nif) REFERENCES Organizações(nif) ON DELETE CASCADE,
+    FOREIGN KEY (nif) REFERENCES Organizacoes(nif) ON DELETE CASCADE,
     PRIMARY KEY (nif),
     CHECK (nif > 0),
     CHECK (iban > 0),
