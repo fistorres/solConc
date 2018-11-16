@@ -151,12 +151,12 @@ CREATE TABLE TemLugares (
 );
 
 CREATE TABLE Concerto (
-  espaco VARCHAR(50),
+  codigoEs NUMERIC(5),
   nomeConcerto VARCHAR(50),
   dataConcerto TIMESTAMP,
   PRIMARY KEY (nomeConcerto, dataConcerto),
+  FOREIGN KEY codigoEs REFERENCES Espaco(codigoEs),
   FOREIGN KEY (nomeConcerto) REFERENCES FormatoConcerto(nomeF) ON DELETE CASCADE
-  
 );
 
 CREATE TABLE Comentarios (
