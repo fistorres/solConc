@@ -54,7 +54,7 @@ CREATE TABLE Comentarios (
     nome VARCHAR(50) NOT NULL,
     telemovel NUMERIC(9) NOT NULL,
     FOREIGN KEY (data) REFERENCES Concerto ON DELETE NO ACTION,
-    FOREGN KEY (nome) REFERENCES FormatoConcerto ON DELETE NO ACTION,
+    FOREIGN KEY (nome) REFERENCES FormatoConcerto ON DELETE NO ACTION,
     FOREIGN KEY (telemovel) REFERENCES Espectadores ON DELETE NO ACTION
 );
 
