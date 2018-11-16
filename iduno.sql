@@ -38,8 +38,78 @@ DROP TABLE IF EXISTS AgenciaRepresentante;
 DROP TABLE IF EXISTS Artista;
 DROP TABLE IF EXISTS FormatoConcerto;
 
+CREATE TABLE Organizacoes (
+    nif NUMERIC(9) PRIMARY KEY,
+    website VARCHAR(100),
+    nome VARCHAR(50),
+    redeSocial VARCHAR(50),
+    email VARCHAR(50),
+    telefone NUMERIC(9),
+    morada VARCHAR(50),
+    CHECK (nif > 0),
+    CHECK (telefone > 0)
+);
 
---- Associações
+CREATE TABLE Causas (
+    iban NUMERIC(23) PRIMARY KEY,
+    objetivo VARCHAR(200),
+    nome VARCHAR(20),
+    CHECK (iban > 0)
+);
+
+CREATE TABLE Espectadores (
+    telemovel NUMERIC(9) PRIMARY KEY,
+    email VARCHAR(50),
+    nome VARCHAR (50),
+    nif NUMERIC(9),
+    descontoAcumulado NUMERIC(3),
+    CHECK (telemovel > 0),
+    CHECK (nif > 0)
+);
+
+CREATE TABLE Espaço (
+  redesocialEs VARCHAR(50) UNIQUE,
+  telefoneEs NUMERIC(9) UNIQUE,
+  webesp VARCHAR(50) UNIQUE,
+  emailEs VARCHAR(50) UNIQUE,
+  nomeE VARCHAR(50) UNIQUE,
+  codigoEs NUMERIC(5),
+  horario TIME,   
+  PRIMARY KEY (codigoEs),
+  CHECK(codigoEs>0)
+);
+
+CREATE TABLE Inclui_Salas (
+  nomeS VARCHAR(50) UNIQUE,
+  sigla VARCHAR(10) ,
+  lotação NUMERIC(5) ,
+  codigoEs NUMERIC(5),
+  PRIMARY KEY(sigla,codigoEs) ,
+  FOREIGN KEY(codigoEs) REFERENCES Espaço ON DELETE CASCADE,
+  CHECK(lotacao>0)  
+);
+   
+CREATE TABLE Tem_Zonas (
+  nomeZ VARCHAR(50),
+  sigla VARCHAR(10),
+  codigoEs NUMERIC(5),
+  PRIMARY KEY(nomeZ,codigoEs,sigla),
+  FOREIGN KEY(codigoEs) REFERENCES Espaço,
+  FOREIGN KEY(sigla) REFERENCES Salas ON DELETE CASCADE,
+  CHECK(codigoEs>0)
+);
+
+CREATE TABLE TemLug_Lugares (
+ numeroLetra VARCHAR(50),
+ nomeZ VARCHAR(50),
+ sigla VARCHAR(10),
+ codigoEs NUMERIC(5),
+ PRIMARY KEY(nomeZ,numeroLetra,codigoEs,sigla),
+ FOREIGN KEY(sigla) REFERENCES Salas,
+ FOREIGN KEY(codigoEs) REFERENCES Espaço,
+ FOREIGN KEY(nomeZ) REFERENCES Zonas ON DELETE CASCADE,
+ );
+
 CREATE TABLE Beneficiam (
     data TIMESTAMP,
     nome VARCHAR(50),
@@ -110,19 +180,6 @@ CREATE TABLE Partilham (
     CHECK (telemovel > 0),
     CHECK (numeroSequencial > 0)
 );    
----Entidades
-
-CREATE TABLE Organizacoes (
-    nif NUMERIC(9) PRIMARY KEY,
-    website VARCHAR(100),
-    nome VARCHAR(50),
-    redeSocial VARCHAR(50),
-    email VARCHAR(50),
-    telefone NUMERIC(9),
-    morada VARCHAR(50),
-    CHECK (nif > 0),
-    CHECK (telefone > 0)
-);
 
 CREATE TABLE OrganizacoesApoioSolidario (
     nif NUMERIC(9),
@@ -159,13 +216,6 @@ CREATE TABLE OrganizacoesPatrocinadoras (
     CHECK (montanteAtribuido >= 0)
 );
 
-CREATE TABLE Causas (
-    iban NUMERIC(23) PRIMARY KEY,
-    objetivo VARCHAR(200),
-    nome VARCHAR(20),
-    CHECK (iban > 0)
-);
-
 CREATE TABLE Comentarios (
     numeroSequencial INTEGER(10000000) PRIMARY KEY,
     data TIMESTAMP,
@@ -183,19 +233,6 @@ CREATE TABLE Comentarios (
     CHECK (telemovel > 0)
 );
 
-CREATE TABLE Espectadores (
-    telemovel NUMERIC(9) PRIMARY KEY,
-    email VARCHAR(50),
-    nome VARCHAR (50),
-    nif NUMERIC(9),
-    descontoAcumulado NUMERIC(3),
-    CHECK (telemovel > 0),
-    CHECK (nif > 0)
-);
-
---- sofia
-    
- 
  CREATE TABLE Compram (
     nomeF VARCHAR(50),
     numeroLetra VARCHAR(50),
@@ -231,54 +268,6 @@ CREATE TABLE Realizam (
   FOREIGN KEY (nomeF) REFERENCES FormatoConcerto,
   FOREIGN KEY(siga) REFERENCES Salas
 );
-
-
-CREATE TABLE Espaço (
-  redesocialEs VARCHAR(50) UNIQUE,
-  telefoneEs NUMERIC(9) UNIQUE,
-  webesp VARCHAR(50) UNIQUE,
-  emailEs VARCHAR(50) UNIQUE,
-  nomeE VARCHAR(50) UNIQUE,
-  codigoEs NUMERIC(5),
-  horario TIME,   
-  PRIMARY KEY (codigoEs),
-  CHECK(codigoEs>0)
-  
-);
-
-
-CREATE TABLE Inclui_Salas (
-  nomeS VARCHAR(50) UNIQUE,
-  sigla VARCHAR(10) ,
-  lotação NUMERIC(5) ,
-  codigoEs NUMERIC(5),
-  PRIMARY KEY(sigla,codigoEs) ,
-  FOREIGN KEY(codigoEs) REFERENCES Espaço ON DELETE CASCADE,
-  CHECK(lotacao>0)  
-);
-    
-
-CREATE TABLE Tem_Zonas (
-  nomeZ VARCHAR(50),
-  sigla VARCHAR(10),
-  codigoEs NUMERIC(5),
-  PRIMARY KEY(nomeZ,codigoEs,sigla),
-  FOREIGN KEY(codigoEs) REFERENCES Espaço,
-  FOREIGN KEY(sigla) REFERENCES Salas ON DELETE CASCADE,
-  CHECK(codigoEs>0)
-);
-
-
-CREATE TABLE TemLug_Lugares (
- numeroLetra VARCHAR(50),
- nomeZ VARCHAR(50),
- sigla VARCHAR(10),
- codigoEs NUMERIC(5),
- PRIMARY KEY(nomeZ,numeroLetra,codigoEs,sigla),
- FOREIGN KEY(sigla) REFERENCES Salas,
- FOREIGN KEY(codigoEs) REFERENCES Espaço,
- FOREIGN KEY(nomeZ) REFERENCES Zonas ON DELETE CASCADE,
- );
 
 
 --as cenas do Gil começam aqui
