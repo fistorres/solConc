@@ -82,7 +82,7 @@ CREATE TABLE OrganizacoesPatrocinadoras (
     telefone NUMERIC(9),
     morada VARCHAR(50),
     montanteAtribuido REAL(10000000),
-    FOREIGN KEY (nif) REFERENCES Organizações ON DELETE CASCADE,
+    FOREIGN KEY (nif) REFERENCES Organizacoes ON DELETE CASCADE,
     PRIMARY KEY (nif),
     CHECK (nif > 0),
     CHECK (telefone > 0),
