@@ -214,7 +214,8 @@ CREATE TABLE Solo (
 CREATE TABLE Beneficiam (
     data TIMESTAMP,
     nome VARCHAR(50),
-    montanteAngariado REAL(10000000),
+    montanteAngariado 
+    (10000000),
     nif NUMERIC(9),
     FOREIGN KEY (data) REFERENCES Concerto,
     FOREIGN KEY (nome) REFERENCES FormatoConcerto,
@@ -228,7 +229,7 @@ CREATE TABLE Beneficiam (
 CREATE TABLE Patrocinam (
     data TIMESTAMP,
     nome VARCHAR(50),
-    montanteAtribuido REAL(10000000),
+    montanteAtribuido NUMERIC(6,2),
     nif NUMERIC(9),
     FOREIGN KEY (data) REFERENCES Concerto,
     FOREIGN KEY (nome) REFERENCES FormatoConcerto,
@@ -242,7 +243,7 @@ CREATE TABLE Patrocinam (
 CREATE TABLE Contribuem (
     iban NUMERIC (23),
     nif NUMERIC (9),
-    montanteAngariado REAL(10000000),
+    montanteAngariado NUMERIC(6,2),
     FOREIGN KEY (iban) REFERENCES Causas,
     FOREIGN KEY (nif) REFERENCES Organizacoes,
     FOREIGN KEY (montangeAngariado) REFERENCES OrganizacoesApoioSolidario,
