@@ -115,7 +115,7 @@ CREATE TABLE Espaco (
 CREATE TABLE IncluiSalas (
   nomeS VARCHAR(50) UNIQUE,
   sigla VARCHAR(10) ,
-  lotação NUMERIC(5) ,
+  lotacao NUMERIC(5) ,
   codigoEs NUMERIC(5),
   PRIMARY KEY(sigla,codigoEs) ,
   FOREIGN KEY(codigoEs) REFERENCES Espaco(codigoEs) ON DELETE CASCADE,
