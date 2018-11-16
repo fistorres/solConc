@@ -75,7 +75,7 @@ CREATE TABLE OrganizacoesPatrocinadoras (
     email VARCHAR(50),
     telefone NUMERIC(9),
     morada VARCHAR(50),
-    montanteAtribuido REAL(10000000),
+    montanteAtribuido NUMERIC(6,2),
     FOREIGN KEY (nif) REFERENCES Organizacoes ON DELETE CASCADE,
     PRIMARY KEY (nif),
     CHECK (nif > 0),
