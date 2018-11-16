@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS FormatoConcerto;
 DROP TABLE IF EXISTS TemLugares;
 DROP TABLE IF EXISTS TemZonas;
 DROP TABLE IF EXISTS IncluiSalas;
-DROP TABLE IF EXISTS Espaço;
+DROP TABLE IF EXISTS Espaco;
 DROP TABLE IF EXISTS Espectadores;
 DROP TABLE IF EXISTS OrganizacoesPatrocinadoras;
 DROP TABLE IF EXISTS OrganizacoesApoioSolidario;
@@ -76,7 +76,7 @@ CREATE TABLE OrganizacoesPatrocinadoras (
     telefone NUMERIC(9),
     morada VARCHAR(50),
     montanteAtribuido NUMERIC(6,2),
-    FOREIGN KEY (nif) REFERENCES Organizacoes ON DELETE CASCADE,
+    FOREIGN KEY (nif) REFERENCES Organizacoes(nif) ON DELETE CASCADE,
     PRIMARY KEY (nif),
     CHECK (nif > 0),
     CHECK (telefone > 0),
@@ -93,7 +93,7 @@ CREATE TABLE Espectadores (
     CHECK (nif > 0)
 );
 
-CREATE TABLE Espaço (
+CREATE TABLE Espaco (
   redesocialEs VARCHAR(50) UNIQUE,
   telefoneEs NUMERIC(9) UNIQUE,
   webesp VARCHAR(50) UNIQUE,
@@ -111,7 +111,7 @@ CREATE TABLE IncluiSalas (
   lotação NUMERIC(5) ,
   codigoEs NUMERIC(5),
   PRIMARY KEY(sigla,codigoEs) ,
-  FOREIGN KEY(codigoEs) REFERENCES Espaço ON DELETE CASCADE,
+  FOREIGN KEY(codigoEs) REFERENCES Espaco(codigoEs) ON DELETE CASCADE,
   CHECK(lotacao>0)  
 );
    
@@ -120,8 +120,8 @@ CREATE TABLE TemZonas (
   sigla VARCHAR(10),
   codigoEs NUMERIC(5),
   PRIMARY KEY(nomeZ,codigoEs,sigla),
-  FOREIGN KEY(codigoEs) REFERENCES Espaço,
-  FOREIGN KEY(sigla) REFERENCES IncluiSalas ON DELETE CASCADE,
+  FOREIGN KEY(codigoEs) REFERENCES Espaco(codigoEs),
+  FOREIGN KEY(sigla) REFERENCES IncluiSalas(sigla) ON DELETE CASCADE,
   CHECK(codigoEs>0)
 );
 
@@ -132,8 +132,8 @@ CREATE TABLE TemLugares (
  codigoEs NUMERIC(5),
  PRIMARY KEY(nomeZ,numeroLetra,codigoEs,sigla),
  FOREIGN KEY(sigla) REFERENCES IncluiSalas,
- FOREIGN KEY(codigoEs) REFERENCES Espaço,
- FOREIGN KEY(nomeZ) REFERENCES TemZonas ON DELETE CASCADE,
+ FOREIGN KEY(codigoEs) REFERENCES Espaco(codigoEs),
+ FOREIGN KEY(nomeZ) REFERENCES TemZonas(nomeZ) ON DELETE CASCADE,
  );
  
  CREATE TABLE FormatoConcerto (
@@ -160,9 +160,9 @@ CREATE TABLE Comentarios (
     data TIMESTAMP NOT NULL,
     nome VARCHAR(50) NOT NULL,
     telemovel NUMERIC(9) NOT NULL,
-    FOREIGN KEY (data) REFERENCES Concerto ON DELETE NO ACTION,
-    FOREIGN KEY (nome) REFERENCES FormatoConcerto ON DELETE NO ACTION,
-    FOREIGN KEY (telemovel) REFERENCES Espectadores ON DELETE NO ACTION
+    FOREIGN KEY (data) REFERENCES Concerto(data) ON DELETE NO ACTION,
+    FOREIGN KEY (nome) REFERENCES FormatoConcerto(nome) ON DELETE NO ACTION,
+    FOREIGN KEY (telemovel) REFERENCES Espectadores(telemovel) ON DELETE NO ACTION
     CHECK (numeroSequencial > 0),
     CHECK (likes >= 0),
     CHECK (dislikes >= 0),
@@ -217,10 +217,10 @@ CREATE TABLE Beneficiam (
     montanteAngariado 
     (10000000),
     nif NUMERIC(9),
-    FOREIGN KEY (data) REFERENCES Concerto,
-    FOREIGN KEY (nome) REFERENCES FormatoConcerto,
-    FOREIGN KEY (montanteAngariado) REFERENCES OrganizacoesApoioSolidario,
-    FOREIGN KEY (nif) REFERENCES Organizacoes,
+    FOREIGN KEY (data) REFERENCES Concerto(data),
+    FOREIGN KEY (nome) REFERENCES FormatoConcerto(nome),
+    FOREIGN KEY (montanteAngariado) REFERENCES OrganizacoesApoioSolidario(montanteAngariado),
+    FOREIGN KEY (nif) REFERENCES Organizacoes(nif),
     PRIMARY KEY (data, nome, montanteAngariado, nif),
     CHECK (montanteAngariado >= 0),
     CHECK (nif > 0)
@@ -231,10 +231,10 @@ CREATE TABLE Patrocinam (
     nome VARCHAR(50),
     montanteAtribuido NUMERIC(6,2),
     nif NUMERIC(9),
-    FOREIGN KEY (data) REFERENCES Concerto,
-    FOREIGN KEY (nome) REFERENCES FormatoConcerto,
-    FOREIGN KEY (montanteAtribuido) REFERENCES OrganizacoesPatrocinadoras,
-    FOREIGN KEY (nif) REFERENCES Organizacoes,
+    FOREIGN KEY (data) REFERENCES Concerto(data),
+    FOREIGN KEY (nome) REFERENCES FormatoConcerto(nome),
+    FOREIGN KEY (montanteAtribuido) REFERENCES OrganizacoesPatrocinadoras(montanteAtribuido),
+    FOREIGN KEY (nif) REFERENCES Organizacoes(nif),
     PRIMARY KEY (data, nome, montanteAtribuido, nif),
     CHECK (montanteAtribuido >= 0),
     CHECK (nif > 0)
@@ -244,8 +244,8 @@ CREATE TABLE Contribuem (
     iban NUMERIC (23),
     nif NUMERIC (9),
     montanteAngariado NUMERIC(6,2),
-    FOREIGN KEY (iban) REFERENCES Causas,
-    FOREIGN KEY (nif) REFERENCES Organizacoes,
+    FOREIGN KEY (iban) REFERENCES Causas(iban),
+    FOREIGN KEY (nif) REFERENCES Organizacoes(nif),
     FOREIGN KEY (montangeAngariado) REFERENCES OrganizacoesApoioSolidario,
     PRIMARY KEY (iban, nif, montanteAngariado),
     CHECK (iban > 0),
@@ -257,8 +257,8 @@ CREATE TABLE SaoFeitos (
     data TIMESTAMP,
     nome VARCHAR(50),
     numeroSequencial INTEGER(10000000),
-    FOREIGN KEY (data) REFERENCES Concerto,
-    FOREIGN KEY (nome) REFERENCES FormatoConcerto,
+    FOREIGN KEY (data) REFERENCES Concerto(data),
+    FOREIGN KEY (nome) REFERENCES FormatoConcerto(nome),
     PRIMARY KEY (data, nome, numeroSequencial),
     CHECK (numeroSequencial > 0)
 );    
@@ -266,8 +266,8 @@ CREATE TABLE SaoFeitos (
 CREATE TABLE RespondemA (
     originalNumeroSequencial INTEGER(10000000),
     respostaNumeroSequencial INTEGER(10000000),
-    FOREIGN KEY (original_numeroSequencial) REFERENCES Comentarios,
-    FOREIGN KEY (resposta_numeroSequencial) REFERENCES Comentarios,
+    FOREIGN KEY (original_numeroSequencial) REFERENCES Comentarios(original_numeroSequencial),
+    FOREIGN KEY (resposta_numeroSequencial) REFERENCES Comentarios(resposta_numeroSequencial),
     PRIMARY KEY (original_numeroSequencial, resposta_numeroSequencial),
     CHECK (originalNumeroSequencial > 0),
     CHECK (respostaNumeroSequencial > 1)
@@ -276,8 +276,8 @@ CREATE TABLE RespondemA (
 CREATE TABLE Partilham (
     telemovel NUMERIC(9),
     numeroSequencial INTEGER(10000000),
-    FOREIGN KEY (telemovel) REFERENCES Espectadores,
-    FOREIGN KEY (numeroSequencial) REFERENCES Comentarios,
+    FOREIGN KEY (telemovel) REFERENCES Espectadores(telemovel),
+    FOREIGN KEY (numeroSequencial) REFERENCES Comentarios(numeroSequencial),
     PRIMARY KEY (telemovel, numeroSequencial),
     CHECK (telemovel > 0),
     CHECK (numeroSequencial > 0)
@@ -292,12 +292,12 @@ CREATE TABLE Partilham (
     preco INTEGER(3),
     telemovel NUMERIC(9) UNIQUE,
     PRIMARY KEY (nomeF,numeroLetra,nomeZ,sigla,codigoEs),
-    PRIMARY KEY (nomeF) REFERENCES FormatoConcerto,
-    FOREIGN KEY (numeroLetra) REFERENCES Lugares,
-    FOREIGN KEY (nomeZ) REFERENCES Zonas,
-    FOREIGN KEY (sigla) REFERENCES Salas,
-    FOREIGN KEY (codigoEs) REFERENCES Espaço  ,
-    FOREIGN KEY (telemovem) REFERENCES Espectadores,
+    PRIMARY KEY (nomeF) REFERENCES FormatoConcerto(nomeF),
+    FOREIGN KEY (numeroLetra) REFERENCES Lugares(numeroLetra),
+    FOREIGN KEY (nomeZ) REFERENCES Zonas(nomeZ),
+    FOREIGN KEY (sigla) REFERENCES Salas(sigla),
+    FOREIGN KEY (codigoEs) REFERENCES Espaco(codigoEs),
+    FOREIGN KEY (telemovel) REFERENCES Espectadores(telemovel),
     CHECK(preco>0)
 );
 
@@ -306,9 +306,9 @@ CREATE TABLE Realizam (
   sigla VARCHAR(10),
   codigoEs VARCHAR(50),
   PRIMARY KEY (codigoEs,nomeF,sigla),
-  FOREIGN KEY (codigoEs) REFERENCES Espaço,
-  FOREIGN KEY (nomeF) REFERENCES FormatoConcerto,
-  FOREIGN KEY(siga) REFERENCES Salas
+  FOREIGN KEY (codigoEs) REFERENCES Espaco(codigoEs),
+  FOREIGN KEY (nomeF) REFERENCES FormatoConcerto(nomeF),
+  FOREIGN KEY (siga) REFERENCES Salas(siga)
 );
 
 CREATE TABLE Atua (
