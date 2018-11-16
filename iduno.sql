@@ -304,7 +304,13 @@ CREATE TABLE Concerto (
 );
 
 CREATE TABLE Atuante (
-  nome VARCHAR(20) PRIMARY KEY ON DELETE CASCADE
+  nome VARCHAR(20) PRIMARY KEY,
+  codAgenciaRepresentante NUMERIC(4) NOT NULL,
+  idArtista NUMERIC(4) NOT NULL,
+  papel VARCHAR(50) NOT NULL,
+  FOREIGN KEY (codAgenciaRepresentante) REFERENCES AgenciaRepresentante(codigo),
+  FOREIGN KEY (idArtista) REFERENCES Artista(id),
+  FOREIGN KEY (papel) REFERENCES Papel(designacao) ON DELETE NO ACTION
 );
 
 CREATE TABLE Banda (
