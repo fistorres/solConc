@@ -415,7 +415,7 @@ INSERT INTO FormatoConcerto (nomeF, duracao, sinopse)
 INSERT INTO FormatoConcerto (nomeF, duracao, sinopse)
   VALUES ('To Ze Conta Piadas', 3:00:00, 'O To Ze conta piadas, mas nao sao muito boas');
 INSERT INTO FormatoConcerto (nomeF, duracao, sinopse)
-  VALUES ('5 milliseconds of summer', 1:00:00, 'A banda favorita da malta jovem esta de volta');
+  VALUES ('RockPm', 1:00:00, 'A banda favorita da malta jovem esta de volta');
 
 INSERT INTO AgenciaRepresentante (codigo, nome, website, email, morada, redeSocial, telefone)
 	VALUES (0224, RisingStar, www.risingstar.com, info@risingstar.com, Rua Nómada n1, www.facebook.com/risingstar, 213098666);
@@ -432,11 +432,11 @@ INSERT INTO Artista (id, nome, nomeArtistico)
 	VALUES (1587, Brian Taylor, King);
 	
 INSERT INTO Concerto (espaço, nomeConcerto, dataConcerto)
-	VALUES (0010, LiveMaid, "2018-06-02 16:45:00)";
+	VALUES (0010, 'RockPm', "2018-06-02 16:45:00");
 INSERT INTO Concerto (espaço, nomeConcerto, dataConcerto)
-	VALUES (0250, RockPm, "2018-07-15 14:00:00");
+	VALUES (0250, 'RockPm', "2018-07-15 14:00:00");
 INSERT INTO Concerto (espaço, nomeConcerto, dataConcerto)
-	VALUES (3250, LiveInGondomar, "2018-06-10 18:30:00");
+	VALUES (3250, 'RockPm', "2018-06-10 18:30:00");
 		
 INSERT INTO Solo(nomeAtuante)
   VALUES ("LadyBirdy")
