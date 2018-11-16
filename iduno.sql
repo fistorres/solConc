@@ -54,6 +54,41 @@ CREATE TABLE Causas (
     CHECK (iban > 0)
 );
 
+CREATE TABLE OrganizacoesApoioSolidario (
+    nif NUMERIC(9),
+    iban NUMERIC(23) NOT NULL,
+    website VARCHAR(100),
+    nome VARCHAR(50),
+    redeSocial VARCHAR(50),
+    email VARCHAR(50),
+    telefone NUMERIC(9),
+    morada VARCHAR(50),
+    montanteAngariado REAL(10000000),
+    FOREIGN KEY (iban) REFERENCES Causas ON DELETE NO ACTION,
+    FOREIGN KEY (nif) REFERENCES Organizações ON DELETE CASCADE,
+    PRIMARY KEY (nif),
+    CHECK (nif > 0),
+    CHECK (iban > 0),
+    CHECK (telefone > 0),
+    CHECK (montanteAngariado >= 0)
+);
+
+CREATE TABLE OrganizacoesPatrocinadoras (
+    nif NUMERIC(9),
+    website VARCHAR(100),
+    nome VARCHAR(50),
+    redeSocial VARCHAR(50),
+    email VARCHAR(50),
+    telefone NUMERIC(9),
+    morada VARCHAR(50),
+    montanteAtribuido REAL(10000000),
+    FOREIGN KEY (nif) REFERENCES Organizações ON DELETE CASCADE,
+    PRIMARY KEY (nif),
+    CHECK (nif > 0),
+    CHECK (telefone > 0),
+    CHECK (montanteAtribuido >= 0)
+);
+
 CREATE TABLE Espectadores (
     telemovel NUMERIC(9) PRIMARY KEY,
     email VARCHAR(50),
@@ -106,6 +141,61 @@ CREATE TABLE TemLugares (
  FOREIGN KEY(codigoEs) REFERENCES Espaço,
  FOREIGN KEY(nomeZ) REFERENCES TemZonas ON DELETE CASCADE,
  );
+ 
+ CREATE TABLE FormatoConcerto (
+  nomeF VARCHAR(50), 
+  duracao TIME,
+  sinopse VARCHAR(200),
+  PRIMARY KEY(nomeF),
+  CHECK(duracao>0)
+);
+
+CREATE TABLE Concerto (
+  data TIMESTAMP,
+  espaco VARCHAR(50),
+  nomeConcerto VARCHAR(50),
+  PRIMARY KEY (nomeConcerto, data),
+  FOREIGN KEY (nomeConcerto) REFERENCES FormatoConcerto(nomeF) ON DELETE CASCADE
+);
+
+CREATE TABLE Comentarios (
+    numeroSequencial INTEGER(10000000) PRIMARY KEY,
+    data TIMESTAMP,
+    likes INTEGER(10000000),
+    dislikes INTEGER(10000000),
+    data TIMESTAMP NOT NULL,
+    nome VARCHAR(50) NOT NULL,
+    telemovel NUMERIC(9) NOT NULL,
+    FOREIGN KEY (data) REFERENCES Concerto ON DELETE NO ACTION,
+    FOREIGN KEY (nome) REFERENCES FormatoConcerto ON DELETE NO ACTION,
+    FOREIGN KEY (telemovel) REFERENCES Espectadores ON DELETE NO ACTION
+    CHECK (numeroSequencial > 0),
+    CHECK (likes >= 0),
+    CHECK (dislikes >= 0),
+    CHECK (telemovel > 0)
+);
+
+CREATE TABLE Artista (
+  id NUMERIC(4) PRIMARY KEY,
+  nome VARCHAR(20),
+  nomeArtistico VARCHAR(20) UNIQUE,
+  CHECK (id > 0)
+);
+
+CREATE TABLE AgenciaRepresentante (
+  codigo NUMERIC(4) PRIMARY KEY,
+  nome VARCHAR(20),
+  website VARCHAR(20) UNIQUE,
+  email VARCHAR(20) UNIQUE,
+  morada VARCHAR(100) UNIQUE,
+  redeSocial VARCHAR(50) UNIQUE,
+  telefone NUMERIC(9),
+  CHECK (codigo > 0)
+);
+
+CREATE TABLE Papel (
+  designacao VARCHAR(50) PRIMARY KEY
+);
 
 CREATE TABLE Beneficiam (
     data TIMESTAMP,
@@ -178,58 +268,6 @@ CREATE TABLE Partilham (
     CHECK (numeroSequencial > 0)
 );    
 
-CREATE TABLE OrganizacoesApoioSolidario (
-    nif NUMERIC(9),
-    iban NUMERIC(23) NOT NULL,
-    website VARCHAR(100),
-    nome VARCHAR(50),
-    redeSocial VARCHAR(50),
-    email VARCHAR(50),
-    telefone NUMERIC(9),
-    morada VARCHAR(50),
-    montanteAngariado REAL(10000000),
-    FOREIGN KEY (iban) REFERENCES Causas ON DELETE NO ACTION,
-    FOREIGN KEY (nif) REFERENCES Organizações ON DELETE CASCADE,
-    PRIMARY KEY (nif),
-    CHECK (nif > 0),
-    CHECK (iban > 0),
-    CHECK (telefone > 0),
-    CHECK (montanteAngariado >= 0)
-);
-
-CREATE TABLE OrganizacoesPatrocinadoras (
-    nif NUMERIC(9),
-    website VARCHAR(100),
-    nome VARCHAR(50),
-    redeSocial VARCHAR(50),
-    email VARCHAR(50),
-    telefone NUMERIC(9),
-    morada VARCHAR(50),
-    montanteAtribuido REAL(10000000),
-    FOREIGN KEY (nif) REFERENCES Organizações ON DELETE CASCADE,
-    PRIMARY KEY (nif),
-    CHECK (nif > 0),
-    CHECK (telefone > 0),
-    CHECK (montanteAtribuido >= 0)
-);
-
-CREATE TABLE Comentarios (
-    numeroSequencial INTEGER(10000000) PRIMARY KEY,
-    data TIMESTAMP,
-    likes INTEGER(10000000),
-    dislikes INTEGER(10000000),
-    data TIMESTAMP NOT NULL,
-    nome VARCHAR(50) NOT NULL,
-    telemovel NUMERIC(9) NOT NULL,
-    FOREIGN KEY (data) REFERENCES Concerto ON DELETE NO ACTION,
-    FOREIGN KEY (nome) REFERENCES FormatoConcerto ON DELETE NO ACTION,
-    FOREIGN KEY (telemovel) REFERENCES Espectadores ON DELETE NO ACTION
-    CHECK (numeroSequencial > 0),
-    CHECK (likes >= 0),
-    CHECK (dislikes >= 0),
-    CHECK (telemovel > 0)
-);
-
  CREATE TABLE Compram (
     nomeF VARCHAR(50),
     numeroLetra VARCHAR(50),
@@ -246,14 +284,6 @@ CREATE TABLE Comentarios (
     FOREIGN KEY (codigoEs) REFERENCES Espaço  ,
     FOREIGN KEY (telemovem) REFERENCES Espectadores,
     CHECK(preco>0)
-);
-
-CREATE TABLE FormatoConcerto (
-  nomeF VARCHAR(50), 
-  duracao TIME,
-  sinopse VARCHAR(200),
-  PRIMARY KEY(nomeF),
-  CHECK(duracao>0)
 );
 
 CREATE TABLE Realizam (
@@ -276,36 +306,6 @@ CREATE TABLE Realizam (
   PRIMARY KEY(nomeF),
   CHECK(duracao>0)
 );"""
-
-CREATE TABLE Artista (
-  id NUMERIC(4) PRIMARY KEY,
-  nome VARCHAR(20),
-  nomeArtistico VARCHAR(20) UNIQUE,
-  CHECK (id > 0)
-);
-
-CREATE TABLE AgenciaRepresentante (
-  codigo NUMERIC(4) PRIMARY KEY,
-  nome VARCHAR(20),
-  website VARCHAR(20) UNIQUE,
-  email VARCHAR(20) UNIQUE,
-  morada VARCHAR(100) UNIQUE,
-  redeSocial VARCHAR(50) UNIQUE,
-  telefone NUMERIC(9),
-  CHECK (codigo > 0)
-);
-
-CREATE TABLE Papel (
-  designacao VARCHAR(50) PRIMARY KEY
-);
-
-CREATE TABLE Concerto (
-  data TIMESTAMP,
-  espaco VARCHAR(50),
-  nomeConcerto VARCHAR(50),
-  PRIMARY KEY (NomeConcerto, data),
-  FOREIGN KEY (nomeConcerto) REFERENCES FormatoConcerto(nomeF) ON DELETE CASCADE
-);
 
 CREATE TABLE Atuante (
   nome VARCHAR(20) PRIMARY KEY,
