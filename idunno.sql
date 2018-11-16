@@ -131,9 +131,9 @@ CREATE TABLE TemLugares (
  sigla VARCHAR(10),
  codigoEs NUMERIC(5),
  PRIMARY KEY(nomeZ,numeroLetra,codigoEs,sigla),
- FOREIGN KEY(sigla) REFERENCES IncluiSalas,
+ FOREIGN KEY(sigla) REFERENCES IncluiSalas(sigla),
  FOREIGN KEY(codigoEs) REFERENCES Espaco(codigoEs),
- FOREIGN KEY(nomeZ) REFERENCES TemZonas(nomeZ) ON DELETE CASCADE,
+ FOREIGN KEY(nomeZ) REFERENCES TemZonas(nomeZ) ON DELETE CASCADE
  );
  
  CREATE TABLE FormatoConcerto (
@@ -145,24 +145,24 @@ CREATE TABLE TemLugares (
 );
 
 CREATE TABLE Concerto (
-  data TIMESTAMP,
+  dataConcerto TIMESTAMP,
   espaco VARCHAR(50),
   nomeConcerto VARCHAR(50),
-  PRIMARY KEY (nomeConcerto, data),
+  PRIMARY KEY (nomeConcerto, dataConcerto),
   FOREIGN KEY (nomeConcerto) REFERENCES FormatoConcerto(nomeF) ON DELETE CASCADE
 );
 
 CREATE TABLE Comentarios (
-    numeroSequencial INTEGER(10000000) PRIMARY KEY,
-    data TIMESTAMP,
-    likes INTEGER(10000000),
-    dislikes INTEGER(10000000),
-    data TIMESTAMP NOT NULL,
+    numeroSequencial NUMERIC(6) PRIMARY KEY,
+    dataComentario TIMESTAMP,
+    likes NUMERIC(6),
+    dislikes NUMERIC(6),
+    dataConcerto TIMESTAMP NOT NULL,
     nome VARCHAR(50) NOT NULL,
     telemovel NUMERIC(9) NOT NULL,
-    FOREIGN KEY (data) REFERENCES Concerto(data) ON DELETE NO ACTION,
-    FOREIGN KEY (nome) REFERENCES FormatoConcerto(nome) ON DELETE NO ACTION,
-    FOREIGN KEY (telemovel) REFERENCES Espectadores(telemovel) ON DELETE NO ACTION
+    FOREIGN KEY (dataConcerto) REFERENCES Concerto(dataConcerto) ON DELETE NO ACTION,
+    FOREIGN KEY (nome) REFERENCES FormatoConcerto(nomeF) ON DELETE NO ACTION,
+    FOREIGN KEY (telemovel) REFERENCES Espectadores(telemovel) ON DELETE NO ACTION,
     CHECK (numeroSequencial > 0),
     CHECK (likes >= 0),
     CHECK (dislikes >= 0),
@@ -213,7 +213,7 @@ CREATE TABLE Solo (
 
 CREATE TABLE Beneficiam (
     data TIMESTAMP,
-    nome VARCHAR(50),
+    nome VARCHAR(50),comentarios
     montanteAngariado 
     (10000000),
     nif NUMERIC(9),
