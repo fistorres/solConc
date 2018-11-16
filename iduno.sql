@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS Comentarios;
 DROP TABLE IF EXISTS Espectadores;
 
 DROP TABLE IF EXISTS Desempenha;
-DROP TABLE IF EXISTS TemCapacidade;
+CausasDROP TABLE IF EXISTS TemCapacidade;
 DROP TABLE IF EXISTS Representa;
 DROP TABLE IF EXISTS Atua;
 DROP TABLE IF EXISTS Solo;
@@ -64,8 +64,8 @@ CREATE TABLE OrganizacoesApoioSolidario (
     telefone NUMERIC(9),
     morada VARCHAR(50),
     montanteAngariado REAL(10000000),
-    FOREIGN KEY (iban) REFERENCES Causas ON DELETE NO ACTION,
-    FOREIGN KEY (nif) REFERENCES Organizações ON DELETE CASCADE,
+    FOREIGN KEY (iban) REFERENCES Causas(iban) ON DELETE NO ACTION,
+    FOREIGN KEY (nif) REFERENCES Organizações(nif) ON DELETE CASCADE,
     PRIMARY KEY (nif),
     CHECK (nif > 0),
     CHECK (iban > 0),
