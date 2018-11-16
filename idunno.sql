@@ -103,29 +103,30 @@ CREATE TABLE RespondemA (
 
 CREATE TABLE Partilham (
     telemovel NUMERIC(9),
-    numeroSequencial INTEGER(10000000)
-    PRIMARY KEY (telemovel, numeroSequencial)
-    FOREIGN KEY (telemove) REFERENCES Espectadores
+    numeroSequencial INTEGER(10000000),
+    PRIMARY KEY (telemovel, numeroSequencial),
+    FOREIGN KEY (telemove) REFERENCES Espectadores,
     FOREIGN KEY (numeroSequencial) REFERENCES Comentarios
 );    
 
-CREATE TABLE Compram (
+"""CREATE TABLE Compram (
     nome VARCHAR(50),
     numeroLetra VARCHAR(50),
     telemovel NUMERIC(9),
     preço INTEGER(3)
     PRIMARY KEY (nome, numeroLetra),
-    FOREIGN KEY (nome) REFERENCES FormatoConcerto
-    FOREIGN KEY (numeroLetra) REFERENCES LUGARES
-    FOREIGN KEY (telemovel) REFERENCES Espectadores
-);
+    FOREIGN KEY (nome) REFERENCES FormatoConcerto,
+    FOREIGN KEY (numeroLetra) REFERENCES LUGARES,
+    FOREIGN KEY (telemovel) REFERENCES Espectadores,
+    
+);"""
 
 CREATE TABLE FormatoConcerto (
   nomeF VARCHAR(50), 
   duracao TIME,
   sinopse VARCHAR(200),
-  PRIMARY KEY(nomeF)
-  
+  PRIMARY KEY(nomeF),
+  CHECK(duracao>0)
 );
 
 CREATE TABLE Realizam (
@@ -133,7 +134,7 @@ CREATE TABLE Realizam (
   codigoEs VARCHAR(50),
   PRIMARY KEY (codigoEs,nomeF),
   FOREIGN KEY (codigoEs) REFERENCES Espaço,
-  FOREIGN KEY (nomeF) REFERENCES FormatoConcerto
+  FOREIGN KEY (nomeF) REFERENCES FormatoConcerto,
 );
 
 
@@ -155,7 +156,8 @@ CREATE TABLE Inclui (
  sigla VARCHAR(10),
  PRIMARY KEY(codigoEs,sigla),
  FOREIGN KEY(codigoEs) REFERENCES Espaço,
- FOREIGN KEY(sigla) REFERENCES Salas 
+ FOREIGN KEY(sigla) REFERENCES Salas,
+ CHECK(codigoEs>0)
 );
 
 CREATE TABLE Salas (
@@ -163,32 +165,32 @@ CREATE TABLE Salas (
   sigla VARCHAR(10) ,
   lotação NUMERIC(5) ,
   codigoEs NUMERIC(5),
-  PRIMARY KEY(sigla,codigoEs) REFERENCES Espaço ON DELETE CASCADE
-  CHECK(lotação>0),
-  CHECK(codigoEs>0),
-  );
+  PRIMARY KEY(sigla,codigoEs) REFERENCES Espaço ON DELETE CASCADE,
+  CHECK(lotacao>0)  
+);
+    
 
 
 CREATE TABLE Tem (
   sigla VARCHAR(50),
   nomeZ VARCHAR(50),
-  PRIMARY KEY(sigla,nomeZ)
-  FOREIGN KEY(sigla) REFERENCES Salas
-  FOREIGN KEY(nomeZ) REFERENCES Zonas
+  PRIMARY KEY(sigla,nomeZ),
+  FOREIGN KEY(sigla) REFERENCES Salas,
+  FOREIGN KEY(nomeZ) REFERENCES Zonas,
 );
 
 CREATE TABLE Zonas (
   nomeZ VARCHAR(50),
   codigoEs NUMERIC(5),
   PRIMARY KEY(nome,codigoEs),
-  FOREIGN KEY(codigoEs) REFERENCES Salas ON DELETE CASCADE
+  FOREIGN KEY(codigoEs) REFERENCES Salas ON DELETE CASCADE,
 );
 
 CREATE TABLE TemLug (
  nomeZ VARCHAR(50),
  numeroLetra VARCHAR(50),
- PRIMARY KEY(nomeZ,numeroLetra)
- FOREIGN KEY(nomeZ) REFERENCES Zonas
+ PRIMARY KEY(nomeZ,numeroLetra),
+ FOREIGN KEY(nomeZ) REFERENCES Zonas,
  FOREIGN KEY(numeroLetra) REFERENCES Lugares
 );
 
@@ -197,7 +199,7 @@ CREATE TABLE Lugares (
  numeroLetra VARCHAR(50),
  codigoEsEs NUMERIC(5),
  PRIMARY KEY(nomeZ,numeroLetra,codigoEs),
- FOREIGN KEY(nomeZ,codigoEs) REFERENCES Zonas ON DELETE CASCADE
+ FOREIGN KEY(nomeZ,codigoEs) REFERENCES Zonas ON DELETE CASCADE,
  );
 
 
