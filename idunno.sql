@@ -360,3 +360,60 @@ CREATE TABLE Desempenha (
   FOREIGN KEY (nomeAtuante) REFERENCES Atuante(nome),
   PRIMARY KEY (nomeAtuante, idArtista, designacaoPapel)
 );
+
+-- Comandos de insercao
+INSERT INTO Organizacoes (nif, website, nome, redeSocial, email, telefone, morada)
+  VALUES (214536548, 'www.lutaverde.com', 'Luta Verde', 'facebook.com/redesocial', 'geral@lutaverde.com', 215478963, 'Av.1, 2ESQ');
+INSERT INTO Organizacoes (nif, website, nome, redeSocial, email, telefone, morada)
+    VALUES (236541258, 'www.lutaamarela.com', 'Luta Amarela', 'facebook.com/lutaamarela', 'geral@verde.com', 214586325, 'Av. Amarela, 42');
+INSERT INTO Organizacoes (nif, website, nome, redeSocial, email, telefone, morada)
+    VALUES (214586328, 'www.lutaazul.com', 'Luta Azul', 'facebook.com/azul', 'geral@azul.com', 21456898, 'Av. Lilas, 54');
+INSERT INTO Causas (iban, objetivo, nome)
+  VALUES (21453265478963214569874, 'Curar a malaria', 'Medicos Universais');
+INSERT INTO Causas (iban, objetivo, nome)
+  VALUES (21453269478963214569874, 'Curar o cancro', 'Medicos Mundiais');
+INSERT INTO Causas (iban, objetivo, nome)
+  VALUES (21453265878963214569874, 'Curar a gripe', 'Doutores Universais');
+
+INSERT INTO OrganizacoesApoioSolidario (nif, iban, website, nome, redeSocial, email, telefone, morada, montanteAngariado)
+  VALUES (521452368, 21853265478963214569874, 'contrapobreza.com', 'Contra a pobreza', 'twitter.com/contrapobreza', 217564522, 'Av. Jose Manuel, 2A', 552145.25);
+INSERT INTO OrganizacoesApoioSolidario (nif, iban, website, nome, redeSocial, email, telefone, morada, montanteAngariado)
+  VALUES (521452368, 21853265478963214569874, 'contrafome.com', 'Contra a fome', 'twitter.com/contrafome', 217564582, 'Av. Jose Manuel, 3A', 552845.25);
+INSERT INTO OrganizacoesApoioSolidario (nif, iban, website, nome, redeSocial, email, telefone, morada, montanteAngariado)
+  VALUES (521452368, 21853265478963214569874, 'contraignorancia.com', 'Contra a ignorancia', 'twitter.com/contraigno', 217464522, 'Av. Jose Manuel, 4A', 852145.25);
+
+INSERT INTO Espaco (redesocialEs, telefoneEs, weesp, emailEs, nomeE, codigoEs, horario)
+  VALUES ('facebook.com/coliseu', 214563252, 'coliseu.pt', 'Coliseu', 00001, 'sempre aberto');
+  INSERT INTO Espaco (redesocialEs, telefoneEs, weesp, emailEs, nomeE, codigoEs, horario)
+  VALUES ('facebook.com/estadio', lotação214563253, 'estadio.pt', 'Estadio', 00002, 'sempre aberto');
+INSERT INTO Espaco (redesocialEs, telefoneEs, weesp, emailEs, nomeE, codigoEs, horario)
+  VALUES ('facebook.com/arena', 214563252, 'arena.pt', 'Arena', 00003, 'sempre aberto');
+
+INSERT INTO IncluiSalas (nomeS, sigla, lotacao, codigoEs)
+  VALUES ('Auditorio 1', 'A1', '400', 00001);
+INSERT INTO IncluiSalas (nomeS, sigla, lotacao, codigoEs)
+  VALUES ('Auditorio 2', 'A2', '400', 00002);
+INSERT INTO IncluiSalas (nomeS, sigla, lotacao, codigoEs)
+  VALUES ('Auditorio 3', 'A3', '400', 00003);
+
+INSERT INTO TemZonas (nomeZ, sigla, codigoEs)
+  VALUES ('1 Balcao', 'A1', 00001);
+INSERT INTO TemZonas (nomeZ, sigla, codigoEs)
+  VALUES ('2 Balcao', 'A1', 00001);
+INSERT INTO TemZonas (nomeZ, sigla, codigoEs)
+  VALUES ('2 Balcao', 'A1', 00001);
+
+INSERT INTO TemLugares (numeroLetra, nomeZ, sigla, codigoEs)
+  VALUES ('A1', '1 Balcao', 'A1', 00001);
+INSERT INTO TemLugares (numeroLetra, nomeZ, sigla, codigoEs)
+  VALUES ('A2', '1 Balcao', 'A1', 00001);
+INSERT INTO TemLugares (numeroLetra, nomeZ, sigla, codigoEs)
+  VALUES ('A3', '1 Balcao', 'A1', 00001);
+
+INSERT INTO FormatoConcerto (nomeF, duracao, sinopse)
+  VALUES ('Os King ao Vivo', 2:30:00, 'Os miticos King voltaram para o maior concerto das suas carreiras');
+INSERT INTO FormatoConcerto (nomeF, duracao, sinopse)
+  VALUES ('To Ze Conta Piadas', 3:00:00, 'O To Ze conta piadas, mas nao sao muito boas');
+INSERT INTO FormatoConcerto (nomeF, duracao, sinopse)
+  VALUES ('5 milliseconds of summer', 1:00:00, 'A banda favorita da malta jovem esta de volta');
+
