@@ -1,38 +1,33 @@
-DROP TABLE IF EXISTS TemLugares;
-DROP TABLE IF EXISTS TemZonas;
-DROP TABLE IF EXISTS IncluiSalas;
-DROP TABLE IF EXISTS Espaço;
-DROP TABLE IF EXISTS Realizam;
-DROP TABLE IF EXISTS FormatoConcerto;
-DROP TABLE IF EXISTS Compram;
-
-
-DROP TABLE IF EXISTS Beneficiam;
-DROP TABLE IF EXISTS Patrocinam;
-DROP TABLE IF EXISTS Contribuem;
-DROP TABLE IF EXISTS SaoFeitos;
-DROP TABLE IF EXISTS RespondemA;
-DROP TABLE IF EXISTS Partilham;
-DROP TABLE IF EXISTS Compram;
-DROP TABLE IF EXISTS Organizacoes;
-DROP TABLE IF EXISTS OrganizacoesApoioSolidario;
-DROP TABLE IF EXISTS OrganizacoesPatrocinadoras;
-DROP TABLE IF EXISTS Causas;
-DROP TABLE IF EXISTS Comentarios;
-DROP TABLE IF EXISTS Espectadores;
-
 DROP TABLE IF EXISTS Desempenha;
 DROP TABLE IF EXISTS TemCapacidade;
 DROP TABLE IF EXISTS Representa;
 DROP TABLE IF EXISTS Atua;
+DROP TABLE IF EXISTS Realizam;
+DROP TABLE IF EXISTS Compram;
+DROP TABLE IF EXISTS Partilham;
+DROP TABLE IF EXISTS RespondemA;
+DROP TABLE IF EXISTS SaoFeitos;
+DROP TABLE IF EXISTS Contribuem;
+DROP TABLE IF EXISTS Patrocinam;
+DROP TABLE IF EXISTS Beneficiam;
 DROP TABLE IF EXISTS Solo;
 DROP TABLE IF EXISTS Banda;
 DROP TABLE IF EXISTS Atuante;
-DROP TABLE IF EXISTS Concerto;
 DROP TABLE IF EXISTS Papel;
 DROP TABLE IF EXISTS AgenciaRepresentante;
 DROP TABLE IF EXISTS Artista;
+DROP TABLE IF EXISTS Comentarios;
+DROP TABLE IF EXISTS Concerto;
 DROP TABLE IF EXISTS FormatoConcerto;
+DROP TABLE IF EXISTS TemLugares;
+DROP TABLE IF EXISTS TemZonas;
+DROP TABLE IF EXISTS IncluiSalas;
+DROP TABLE IF EXISTS Espaço;
+DROP TABLE IF EXISTS Espectadores;
+DROP TABLE IF EXISTS OrganizacoesPatrocinadoras;
+DROP TABLE IF EXISTS OrganizacoesApoioSolidario;
+DROP TABLE IF EXISTS Causas;
+DROP TABLE IF EXISTS Organizacoes;
 
 CREATE TABLE Organizacoes (
     nif NUMERIC(9) PRIMARY KEY,
@@ -196,6 +191,26 @@ CREATE TABLE Papel (
   designacao VARCHAR(50) PRIMARY KEY
 );
 
+CREATE TABLE Atuante (
+  nome VARCHAR(20) PRIMARY KEY,
+  codAgenciaRepresentante NUMERIC(4) NOT NULL,
+  idArtista NUMERIC(4) NOT NULL,
+  papel VARCHAR(50) NOT NULL,
+  FOREIGN KEY (codAgenciaRepresentante) REFERENCES AgenciaRepresentante(codigo),
+  FOREIGN KEY (idArtista) REFERENCES Artista(id),
+  FOREIGN KEY (papel) REFERENCES Papel(designacao) ON DELETE NO ACTION
+);
+
+CREATE TABLE Banda (
+  nomeAtuante VARCHAR(20) PRIMARY KEY,
+  FOREIGN KEY (nomeAtuante) REFERENCES Atuante(nome)
+);
+
+CREATE TABLE Solo (
+  nomeAtuante VARCHAR(20) PRIMARY KEY,
+  FOREIGN KEY (nomeAtuante) REFERENCES Atuante(nome)
+);
+
 CREATE TABLE Beneficiam (
     data TIMESTAMP,
     nome VARCHAR(50),
@@ -293,37 +308,6 @@ CREATE TABLE Realizam (
   FOREIGN KEY (codigoEs) REFERENCES Espaço,
   FOREIGN KEY (nomeF) REFERENCES FormatoConcerto,
   FOREIGN KEY(siga) REFERENCES Salas
-);
-
-
---as cenas do Gil começam aqui
-    
-"""CREATE TABLE FormatoConcerto (
-  nomeF VARCHAR(50), 
-  duracao TIME,
-  sinopse VARCHAR(200),
-  PRIMARY KEY(nomeF),
-  CHECK(duracao>0)
-);"""
-
-CREATE TABLE Atuante (
-  nome VARCHAR(20) PRIMARY KEY,
-  codAgenciaRepresentante NUMERIC(4) NOT NULL,
-  idArtista NUMERIC(4) NOT NULL,
-  papel VARCHAR(50) NOT NULL,
-  FOREIGN KEY (codAgenciaRepresentante) REFERENCES AgenciaRepresentante(codigo),
-  FOREIGN KEY (idArtista) REFERENCES Artista(id),
-  FOREIGN KEY (papel) REFERENCES Papel(designacao) ON DELETE NO ACTION
-);
-
-CREATE TABLE Banda (
-  nomeAtuante VARCHAR(20) PRIMARY KEY,
-  FOREIGN KEY (nomeAtuante) REFERENCES Atuante(nome)
-);
-
-CREATE TABLE Solo (
-  nomeAtuante VARCHAR(20) PRIMARY KEY,
-  FOREIGN KEY (nomeAtuante) REFERENCES Atuante(nome)
 );
 
 CREATE TABLE Atua (
