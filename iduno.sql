@@ -64,7 +64,7 @@ CREATE TABLE OrganizacoesApoioSolidario (
     telefone NUMERIC(9),
     morada VARCHAR(50),
     montanteAngariado REAL(10000000),
-    FOREIGN KEY (iban) REFERENCES Causas(iban) ON DELETE NO ACTION,
+    FOREIGN KEY (iban) REFERENCES Causas(iban),
     FOREIGN KEY (nif) REFERENCES Organizações(nif) ON DELETE CASCADE,
     PRIMARY KEY (nif),
     CHECK (nif > 0),
