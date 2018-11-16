@@ -29,7 +29,7 @@ CREATE TABLE Espectadores (
     nif NUMERIC(9)
     descontoAcumulado NUMERIC(3)
 );
-
+Hey Sammy ainda estou de volta do trabalho, ainda vou demorar (é para hojeHey Sammy ainda estou de volta do trabalho, ainda vou demorar (é para hoje
 CREATE TABLE Comentarios (
     numeroSequencial INTEGER(10000000) PRIMARY KEY,
     data TIMESTAMP,
@@ -200,4 +200,110 @@ CREATE TABLE Compram (
  FOREIGN KEY(telemovelEsp) REFERENCES Espectadores
 
 );
+    
 
+
+DROP TABLE IF EXISTS Desempenha;
+DROP TABLE IF EXISTS TemCapacidade;
+DROP TABLE IF EXISTS Representa;
+DROP TABLE IF EXISTS Atua;
+DROP TABLE IF EXISTS Solo;
+DROP TABLE IF EXISTS Banda;
+DROP TABLE IF EXISTS Atuante;
+DROP TABLE IF EXISTS Concerto;
+DROP TABLE IF EXISTS Papel;
+DROP TABLE IF EXISTS AgenciaRepresentante;
+DROP TABLE IF EXISTS Artista;
+DROP TABLE IF EXISTS FormatoConcerto;
+
+CREATE TABLE FormatoConcerto (
+  nome VARCHAR(50) PRIMARY KEY,
+  duracao TIME,
+  sinopse VARCHAR(200)
+);
+
+CREATE TABLE Artista (
+  id NUMERIC(4) PRIMARY KEY,
+  nome VARCHAR(20),
+  nomeArtistico VARCHAR(20) UNIQUE,
+  CHECK (id > 0)
+);
+
+CREATE TABLE AgenciaRepresentante (
+  codigo NUMERIC(4) PRIMARY KEY,
+  nome VARCHAR(20),
+  website VARCHAR(20) UNIQUE,
+  email VARCHAR(20) UNIQUE,
+  morada VARCHAR(100) UNIQUE,
+  redeSocial VARCHAR(50) UNIQUE,
+  telefone NUMERIC(9),
+  CHECK (codigo > 0)
+);
+
+CREATE TABLE Papel (
+  designacao VARCHAR(50) PRIMARY KEY
+);
+
+CREATE TABLE Concerto (
+  data TIMESTAMP,
+  espaco VARCHAR(50),
+  nomeConcerto VARCHAR(50),
+  PRIMARY KEY (NomeConcerto, data),
+  FOREIGN KEY (nomeConcerto) REFERENCES FormatoConcerto(nome) ON DELETE CASCADE
+);
+
+CREATE TABLE Atuante (
+  nome VARCHAR(20) PRIMARY KEY ON DELETE CASCADE
+);
+
+CREATE TABLE Banda (
+  nomeAtuante VARCHAR(20) PRIMARY KEY,
+  FOREIGN KEY (nomeAtuante) REFERENCES Atuante(nome)
+);
+
+CREATE TABLE Solo (
+  nomeAtuante VARCHAR(20) PRIMARY KEY,
+  FOREIGN KEY (nomeAtuante) REFERENCES Atuante(nome)
+);
+
+CREATE TABLE Atua (
+  nomeAtuante VARCHAR(20),
+  ordem NUMERIC(1),
+  cachet NUMERIC(3),
+  formatoConcerto VARCHAR(50),
+  CHECK (cachet > 0),
+  CHECK (ordem > 0),
+  FOREIGN KEY (nomeAtuante) REFERENCES Atuante(nome),
+  FOREIGN KEY (formatoConcerto) REFERENCES FormatoConcerto(nome),
+  PRIMARY KEY (nomeAtuante, formatoConcerto),
+  CHECK (ordem > 0),
+  CHECK (cachet > 0),
+  CHECK (cachet < 101)
+);
+
+CREATE TABLE Representa (
+  codigoAgencia NUMERIC(4),
+  nomeAtuante VARCHAR(20),
+  FOREIGN KEY (nomeAtuante) REFERENCES Atuante(nome),
+  FOREIGN KEY (codigoAgencia) REFERENCES AgenciaRepresentante(codigo),
+  PRIMARY KEY (codigoAgencia, nomeAtuante)
+);
+
+CREATE TABLE TemCapacidade (
+  idArtista NUMERIC(4),
+  designacaoPapel VARCHAR(50),
+  FOREIGN KEY (idArtista) REFERENCES Artista(id),
+  FOREIGN KEY (designacaoPapel) REFERENCES Papel(designacao),
+  PRIMARY KEY (idArtista, designacaoPapel)
+);
+
+CREATE TABLE Desempenha (
+  idArtista NUMERIC(4),
+  designacaoPapel VARCHAR(50),
+  nomeAtuante VARCHAR(20),
+  cachet NUMERIC(3),
+  FOREIGN KEY (idArtista) REFERENCES Artista(id),
+  FOREIGN KEY (designacaoPapel) REFERENCES Papel(designacao),
+  FOREIGN KEY (nomeAtuante) REFERENCES Atuante(nome),
+  PRIMARY KEY (nomeAtuante, idArtista, designacaoPapel),
+);
