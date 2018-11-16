@@ -42,7 +42,6 @@ CREATE TABLE Espectadores (
     nif NUMERIC(9)
     descontoAcumulado NUMERIC(3)
 );
-Hey Sammy ainda estou de volta do trabalho, ainda vou demorar (é para hojeHey Sammy ainda estou de volta do trabalho, ainda vou demorar (é para hoje
 CREATE TABLE Comentarios (
     numeroSequencial INTEGER(10000000) PRIMARY KEY,
     data TIMESTAMP,
