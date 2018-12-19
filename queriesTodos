@@ -102,8 +102,10 @@ FROM	musico_artista
 WHERE	
 
 -- 9)
--- Ano do Live Aid = 1985
+SELECT ma.id, ma.n_artistico, COUNT(DISTINCT ba.codigo) AS num
+FROM desempenha d, musico_artista ma, banda_artista ba
+WHERE d.musico = ma.id 
+AND d.banda_artista = ba.codigo
+AND ba.ano > 1985
+AND num <= 3
 
-SELECT	ano
-FROM	musico_artista
-WHERE	ano>1985 AND 
