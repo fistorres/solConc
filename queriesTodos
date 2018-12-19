@@ -108,4 +108,12 @@ WHERE d.musico = ma.id
 AND d.banda_artista = ba.codigo
 AND ba.ano > 1985
 AND num <= 3
+-- 9)
+SELECT ma.id, ma.n_artistico, ma.ano, COUNT(DISTINCT d.banda_artista) AS num
+FROM desempenha d, musico_artista ma, banda_artista ba
+d.banda_artista NATURAL JOIN 
+WHERE d.musico=ma.id
 
+
+
+SELECT ID,nome FROM musico_artista INNER JOIN (SELECT musico, count(*) as N FROM habilitado GROUP BY music) as t ON (musico_artista.id = t.musico)
