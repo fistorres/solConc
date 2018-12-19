@@ -71,9 +71,12 @@ WHERE NOT EXISTS (SELECT d.musico
                  AND d.banda_artista = ba.codigo)
 ORDER BY ba.ano ASC, ba.nome ASC
 
-
--- 6)
-
+/*
+6.
+Número de bandas/artistas integradas por cada músico, em cada papel. Nota:
+ordene o resultado pelo ID e nome artístico do músico de forma ascendente, e
+pelo papel de forma descendente.
+*/
 SELECT ma.id, ma.n_artistico, d.papel, COUNT(d.banda_artista)
 FROM musico_artista ma, desempenha d
 WHERE ma.id = d.musico
