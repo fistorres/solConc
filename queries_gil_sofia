@@ -62,14 +62,14 @@ Nome, código, tipo e ano de criação das bandas/artistas que integrem músicos
 nível profissional em todos os papeis. Nota: o resultado deve vir ordenado pelo
 ano e pelo nome de forma ascendente.
 */
-SELECT ba.*
-FROM desempenha d, habilitado h, banda_artista ba
-WHERE d.banda_artista = ba.codigo
-AND d.musico = h.musico
-AND (NOT EXISTS (SELECT h.musico
-                 FROM habilitado h
-                 WHERE h.nivel = "A"))
-ORDER BY ba.ano ASC, ba.nome
+SELECT DISTINCT ba.*
+FROM desempenha d, banda_artista ba
+WHERE NOT EXISTS (SELECT d.musico 
+                 FROM desempenha d, habilitado h
+                 WHERE h.nivel = "A"
+                 AND d.musico = h.musico
+                 AND d.banda_artista = ba.codigo)
+ORDER BY ba.ano ASC, ba.nome ASC
 
 
 -- 6-9
