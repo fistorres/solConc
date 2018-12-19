@@ -105,7 +105,7 @@ FROM	musico_artista
 WHERE	
 
 -- 9)
-SELECT ma.id, ma.n_artistico,
+SELECT ma.id, ma.n_artistico
 FROM desempenha d, musico_artista ma, banda_artista ba
 WHERE d.musico = ma.id 
 AND d.banda_artista = ba.codigo
