@@ -94,10 +94,11 @@ GROUP BY ma.id ASC, ma.n_artistico ASC, d.papel DESC) AS tabela2
 
 -- 8)
 
-SELECT	id, nome
-FROM	(SELECT 
-FROM	musico_artista
-WHERE	
+SELECT id,nome,ano
+FROM musico_artista
+INNER JOIN (SELECT musico, count(*) as N FROM habilitado
+GROUP BY ano,musico
+ORDER BY N DESC LIMIT 1) as t ON (musico_artista.id = t.musico)	
 
 -- 9)
 SELECT ma.id, ma.n_artistico
