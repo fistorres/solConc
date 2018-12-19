@@ -72,15 +72,12 @@ WHERE NOT EXISTS (SELECT d.musico
 ORDER BY ba.ano ASC, ba.nome ASC
 
 
--- 6-9
-
 -- 6)
 
-SELECT	m.id, m.n_artistico, p.papel, COUNT (d.id)
-FROM 	(SELECT desempenha)
-FROM	musico_artista, papel_musical
-WHERE	COUNT(d.id) >= ALL
-ORDER BY	d.id ASC, m.n_artistico ASC, p.papel DESC
+SELECT ma.id, ma.n_artistico, d.papel, COUNT(d.banda_artista)
+FROM musico_artista ma, desempenha d
+WHERE ma.id = d.musico
+GROUP BY ma.id ASC, ma.n_artistico ASC, d.papel DESC
 
 
 -- 7)
