@@ -105,17 +105,13 @@ FROM	musico_artista
 WHERE	
 
 -- 9)
-SELECT ma.id, ma.n_artistico, COUNT(DISTINCT ba.codigo) AS num
+SELECT ma.id, ma.n_artistico,
 FROM desempenha d, musico_artista ma, banda_artista ba
 WHERE d.musico = ma.id 
 AND d.banda_artista = ba.codigo
 AND ba.ano > 1985
-AND num <= 3
--- 9)
-SELECT ma.id, ma.n_artistico, ma.ano, COUNT(DISTINCT d.banda_artista) AS num
-FROM desempenha d, musico_artista ma, banda_artista ba
-d.banda_artista NATURAL JOIN 
-WHERE d.musico=ma.id
+GROUP BY ma.id, ma.n_artistico 
+HAVING COUNT(DISTINCT ba.codigo) < 3
 
 
 
