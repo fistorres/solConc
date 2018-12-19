@@ -116,4 +116,4 @@ WHERE d.musico=ma.id
 
 
 
-SELECT ID,nome FROM musico_artista INNER JOIN (SELECT musico, count(*) as N FROM habilitado GROUP BY music) as t ON (musico_artista.id = t.musico)
+SELECT id,nome,ano FROM musico_artista INNER JOIN (SELECT musico, count(*) as N FROM habilitado GROUP BY music ORDER BY N DESC LIMIT 1) as t ON (musico_artista.id = t.musico) WHERE ano = 1997
