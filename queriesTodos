@@ -82,9 +82,12 @@ FROM musico_artista ma, desempenha d
 WHERE ma.id = d.musico
 GROUP BY ma.id ASC, ma.n_artistico ASC, d.papel DESC
 
-
--- 7)
-
+/*
+7.
+ID e nome artístico dos músicos que pertencem a mais bandas/artistas solo, em
+cada papel. Notas: em caso de empate, devem ser mostrados todos os músicos
+em causa.
+*/
 SELECT *
 FROM (
 SELECT ma.id, ma.n_artistico, d.papel, COUNT(d.banda_artista) AS bandas
@@ -92,15 +95,27 @@ FROM musico_artista ma, desempenha d
 WHERE ma.id = d.musico
 GROUP BY ma.id ASC, ma.n_artistico ASC, d.papel DESC) AS tabela2
 
--- 8)
-
+/*
+8.
+Para cada ano de início de actividade, o ID e nome do músico que está habilitado
+a desempenhar mais papeis. Listar também o número total de papeis para que
+está habilitado, e o maior e menor cachet obtido no desempenho desses papeis.
+Nota: em caso de empate do total de papeis, devem ser mostrados todos os
+músicos em causa.
+*/
 SELECT id,nome,ano
 FROM musico_artista
 INNER JOIN (SELECT musico, count(*) as N FROM habilitado
 GROUP BY ano,musico
 ORDER BY N DESC LIMIT 1) as t ON (musico_artista.id = t.musico)	
 
--- 9)
+/*
+9.
+ID e nome artístico dos músicos que iniciaram atividade depois do ano do Live
+Aid e pertencem a menos de três bandas distintas, mesmo que não tenham
+participado em nenhuma banda. Esta interrogação deve usar apenas um
+SELECT, ou seja sem sub-interrogações.
+*/
 SELECT ma.id, ma.n_artistico
 FROM desempenha d, musico_artista ma, banda_artista ba
 WHERE d.musico = ma.id 
