@@ -1,0 +1,112 @@
+/*
+1.
+Indique por ordem alfabética ascendente o nome artistico de todos os músicos
+que são guitarristas ou violinistas. Nota: pretende-se uma interrogação com
+apenas um SELECT, ou seja, sem sub-interrogações.
+*/
+SELECT m.n_artistico
+FROM musico_artista m, habilitado h
+WHERE h.musico = m.id
+AND (h.papel = 'guitarrista'
+OR h.papel = 'violinista')
+ORDER BY m.n_artistico ASC;
+
+/*
+2.
+ID e nome artístico dos músicos que estão habilitados a pelo menos um dos
+papeis: vocalista e coro, ou que tenham ‘a’ no nome e tenham começado a sua
+actividade de músicos antes do ano do concerto Live Aid (1985). Nota: pode
+usar construtores de conjuntos.
+*/
+SELECT m.id, m.n_artistico
+FROM musico_artista m, habilitado h
+WHERE m.id = h.musico
+AND m.ano < 1985
+AND (h.papel = 'coro'
+    OR h.papel = 'vocalista'
+    OR m.nome LIKE '%a%');
+
+/*
+3.
+Nome das bandas (não solo) criadas depois do Live Aid que são formadas por,
+pelo menos, um músico que iniciou atividade no ano deste concerto e tem um
+nome artístico de 4 letras, começado por ‘L’ .
+*/
+SELECT b.nome
+FROM banda_artista b, desempenha d
+WHERE b.tipo = 'banda'
+AND b.ano > 1985
+AND EXISTS (SELECT m.id
+            FROM musico_artista m
+            WHERE m.ano = 1985
+            AND m.n_artistico LIKE 'L___'
+            AND m.id = d.musico
+            AND d.banda_artista = b.codigo);
+
+/*
+4.
+ID e nome dos músicos que iniciaram actividade depois do ano do movimento
+hippie Summer of Love em S. Francisco (1967), e que nunca participaram em
+bandas/artistas criadas depois do Live Aid.
+*/
+SELECT ma.id, ma.nome
+FROM musico_artista ma, desempenha d, banda_artista ba
+WHERE ma.id = d.musico
+AND ba.codigo = d.banda_artista
+AND ma.ano > 1967
+AND NOT ba.ano > 1985
+
+/*
+5.
+Nome, código, tipo e ano de criação das bandas/artistas que integrem músicos de
+nível profissional em todos os papeis. Nota: o resultado deve vir ordenado pelo
+ano e pelo nome de forma ascendente.
+*/
+SELECT ba.*
+FROM desempenha d, habilitado h, banda_artista ba
+WHERE d.banda_artista = ba.codigo
+AND d.musico = h.musico
+AND (NOT EXISTS (SELECT h.musico
+                 FROM habilitado h
+                 WHERE h.nivel = "A"))
+ORDER BY ba.ano ASC, ba.nome
+
+
+-- 6-9
+
+-- 6)
+
+SELECT	m.id, m.n_artistico, p.papel, COUNT (d.id)
+FROM 	(SELECT desempenha)
+FROM	musico_artista, papel_musical
+WHERE	COUNT(d.id) >= ALL
+ORDER BY	d.id ASC, m.n_artistico ASC, p.papel DESC
+
+
+-- 7)
+
+SELECT	COUNT(d.papel)
+FROM	(SELECT m.id, m.n_artistico FROM musico_artista)
+FROM	desempenha
+WHERE	COUNT(d.papel) >= ALL
+HAVING 	COUNT(*) ALL
+
+SELECT	id, n_artistico, MAX (id), COUNT(id)
+FROM	(SELECT id, n_artistico FROM musico_artista)
+FROM	desempenha
+HAVING	COUNT(*) ALL
+-- intersect???
+
+-- 8)
+
+SELECT	id, nome
+FROM	(SELECT 
+FROM	musico_artista
+WHERE	
+
+-- 9)
+-- Ano do Live Aid = 1985
+
+SELECT	ano
+FROM	musico_artista
+WHERE	ano>1985 AND 
