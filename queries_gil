@@ -1,0 +1,28 @@
+-- 1
+SELECT m.n_artistico
+FROM musico_artista m, habilitado h
+WHERE h.musico = m.id
+AND (h.papel = 'guitarrista'
+OR h.papel = 'violinista')
+ORDER BY m.n_artistico ASC;
+
+-- 2
+SELECT m.id, m.n_artistico
+FROM musico_artista m, habilitado h
+WHERE m.id = h.musico
+AND m.ano < 1985
+AND (h.papel = 'coro'
+    OR h.papel = 'vocalista'
+    OR m.nome LIKE '%a%');
+
+-- 3
+SELECT b.nome
+FROM banda_artista b, desempenha d
+WHERE b.tipo = 'banda'
+AND b.ano > 1985
+AND EXISTS (SELECT m.id
+            FROM musico_artista m
+            WHERE m.ano = 1985
+            AND m.n_artistico LIKE 'L___'
+            AND m.id = d.musico
+            AND d.banda_artista = b.codigo);
