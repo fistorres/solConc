@@ -85,17 +85,12 @@ GROUP BY ma.id ASC, ma.n_artistico ASC, d.papel DESC
 
 -- 7)
 
-SELECT	COUNT(d.papel)
-FROM	(SELECT m.id, m.n_artistico FROM musico_artista)
-FROM	desempenha
-WHERE	COUNT(d.papel) >= ALL
-HAVING 	COUNT(*) ALL
-
-SELECT	id, n_artistico, MAX (id), COUNT(id)
-FROM	(SELECT id, n_artistico FROM musico_artista)
-FROM	desempenha
-HAVING	COUNT(*) ALL
--- intersect???
+SELECT *
+FROM (
+SELECT ma.id, ma.n_artistico, d.papel, COUNT(d.banda_artista) AS bandas
+FROM musico_artista ma, desempenha d
+WHERE ma.id = d.musico
+GROUP BY ma.id ASC, ma.n_artistico ASC, d.papel DESC) AS tabela2
 
 -- 8)
 
@@ -111,8 +106,5 @@ WHERE d.musico = ma.id
 AND d.banda_artista = ba.codigo
 AND ba.ano > 1985
 GROUP BY ma.id, ma.n_artistico 
-HAVING COUNT(DISTINCT ba.codigo) < 3
+HAVING COUNT(DISTINCT ba.codigo) < 2
 
-
-
-SELECT id,nome,ano FROM musico_artista INNER JOIN (SELECT musico, count(*) as N FROM habilitado GROUP BY music ORDER BY N DESC LIMIT 1) as t ON (musico_artista.id = t.musico) WHERE ano = 1997
